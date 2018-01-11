@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    //Search
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:orderInCategory="1"
+        android:title="Search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always" />
+    //Item
+    <item
+        android:id="@+id/menu_newFragment"
+        android:icon="@android:drawable/ic_menu_search"
+        android:orderInCategory="2"
+        android:title="New Fragment"
+        app:showAsAction="ifRoom" />
+
+       //Logout
+    <item
+        android:id="@+id/menu_logout"
+        android:icon="@android:drawable/ic_menu_search"
+        android:orderInCategory="1000"
+        android:title="Logout"
+        app:showAsAction="never" />
+</menu>

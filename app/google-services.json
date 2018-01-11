@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "394004804484",
+    "firebase_url": "https://kamponghub.firebaseio.com",
+    "project_id": "kamponghub",
+    "storage_bucket": "kamponghub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394004804484:android:ddbdd89c9192bb51",
+        "android_client_info": {
+          "package_name": "com.example.cslee.kamponghubso"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "394004804484-2o77hlpomv71oimdneuk0lvctjcl4na2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpF1ItSNoES1ELUD4l809-CGaDbokEdFM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
