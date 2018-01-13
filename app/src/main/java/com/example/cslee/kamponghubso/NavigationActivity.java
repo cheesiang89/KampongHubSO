@@ -12,6 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.cslee.kamponghubso.fragment.CreateTestFragment;
+import com.example.cslee.kamponghubso.fragment.EditTestFragment;
+import com.example.cslee.kamponghubso.fragment.RetrieveTestFragment;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -125,22 +128,22 @@ public class NavigationActivity extends AppCompatActivity {
 
                 case R.id.navigation_home:
                     //mTextMessage.setText(R.string.title_chat);
-                    Toast.makeText(NavigationActivity.this, "Fragment1", Toast.LENGTH_SHORT).show();
-                   /* fragment= new ShopListingFragment();
-                    goFragment(fragment,R.id.screen_area);*/
+                    Toast.makeText(NavigationActivity.this, "CreateShop", Toast.LENGTH_SHORT).show();
+                    fragment= new CreateTestFragment();
+                    goFragment(fragment,R.id.screen_area);
                     return true;
 
                 case R.id.navigation_dashboard:
                     //mTextMessage.setText(R.string.title_chat);
-                    Toast.makeText(NavigationActivity.this, "Fragment2", Toast.LENGTH_SHORT).show();
-                  /*  fragment= new ChatFragment();
-                    goFragment(fragment,R.id.screen_area);*/
+                    Toast.makeText(NavigationActivity.this, "RetrieveShop", Toast.LENGTH_SHORT).show();
+                    fragment= new RetrieveTestFragment();
+                    goFragment(fragment,R.id.screen_area);
                     return true;
                 case R.id.navigation_notifications:
                    // mTextMessage.setText(R.string.title_bookmark);
-                    Toast.makeText(NavigationActivity.this, "Fragment3", Toast.LENGTH_SHORT).show();
-                 /*  fragment = new BookMarkFragment();
-                    goFragment(fragment,R.id.screen_area);*/
+                    Toast.makeText(NavigationActivity.this, "EditShop", Toast.LENGTH_SHORT).show();
+                   fragment = new EditTestFragment();
+                    goFragment(fragment,R.id.screen_area);
                     return true;
 
             }

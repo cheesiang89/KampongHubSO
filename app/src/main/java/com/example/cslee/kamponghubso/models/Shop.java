@@ -8,6 +8,9 @@ public class Shop {
 
     private String shopName;
     private String shopImageUrl;
+
+    private String shopImage;
+    
     private String shopAddress;
     private String shopLatitude;
     private String shopLongitude;
@@ -86,6 +89,14 @@ public class Shop {
 
     public void setTimeStart(String timeStart) {
         this.timeStart = timeStart;
+    }
+
+    public String getShopImage() {
+        return shopImage;
+    }
+
+    public void setShopImage(String shopImage) {
+        this.shopImage = shopImage;
     }
 
 }
