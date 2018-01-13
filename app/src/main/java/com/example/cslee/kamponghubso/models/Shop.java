@@ -1,14 +1,19 @@
 package com.example.cslee.kamponghubso.models;
 
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
-// [START comment_class]
+import java.util.HashMap;
+import java.util.Map;
+
+
 @IgnoreExtraProperties
 public class Shop {
 
+    public String uid;
+    public String shopOwner;
     private String shopName;
-    private String shopImageUrl;
-
+    //This is Base64 string to allow user to upload own image
     private String shopImage;
     
     private String shopAddress;
@@ -16,6 +21,9 @@ public class Shop {
     private String shopLongitude;
     private String timeEnd;
     private String timeStart;
+
+    //This was link to image stored in Firebase Storage in 1st version of program
+    private String shopImageUrl;
 
     public Shop() {
         // Default constructor required for calls to DataSnapshot.getValue(Comment.class)
@@ -32,7 +40,18 @@ public class Shop {
         this.timeEnd=timeEnd;
         this.timeStart=timeStart;
     }
-
+    //For testing: Constructor to take in only ShopName, ShopImage. Other values are hardcoded
+    public Shop(String uid, String shopOwner, String shopname, String shopImage) {
+        this.uid=uid;
+        this.shopOwner=shopOwner;
+        this.shopName= shopname;
+        this.shopImage = shopImage;
+        this.shopAddress="Blk 28";
+        this.shopLatitude= "1.3333301";
+        this.shopLongitude="103.74329650000004";
+        this.timeEnd="0000";
+        this.timeStart="0000";
+    }
 
     public String getShopName() {
         return shopName;
@@ -99,6 +118,23 @@ public class Shop {
         this.shopImage = shopImage;
     }
 
+    // "toMap" is to put the whole object as Hashmap in Firebase child branch ("Shops")
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("uid", uid);
+        result.put("shopOwner", shopOwner);
+        result.put("shopName", shopName);
+        result.put("shopImage", shopImage);
+        result.put("shopAddress", shopAddress);
+        result.put("shopLatitude", shopLatitude);
+        result.put("shopLongitude", shopLongitude);
+        result.put("timeEnd", timeEnd);
+        result.put("timeStart", timeStart);
+
+        return result;
+    }
+
 }
-// [END comment_class]
+
 

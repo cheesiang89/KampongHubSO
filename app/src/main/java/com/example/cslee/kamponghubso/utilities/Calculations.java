@@ -34,8 +34,9 @@ public class Calculations {
     }
 
     public static Bitmap base64ToBitmap(String base64string){
-        String base64Image = base64string.split(",")[1];
-        byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
+        byte[] decodedString = Base64.decode(base64string, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
     }
+
 }

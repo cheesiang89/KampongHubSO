@@ -158,5 +158,9 @@ public class NavigationActivity extends AppCompatActivity {
                 .addToBackStack(null)
                 .commit();
     }
+    //Get Firebase Uid
+    public String getUid() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
 
 }
