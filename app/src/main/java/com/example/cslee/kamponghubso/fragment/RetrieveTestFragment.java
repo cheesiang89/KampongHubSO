@@ -22,11 +22,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.example.cslee.kamponghubso.models.Shop;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +36,7 @@ import java.util.Map;
 public class RetrieveTestFragment extends Fragment {
     //Firebase variables
     private DatabaseReference mShopReference;
-
+    private Query query;
     //UI
     private TextView shopName;
     private ImageView shopPicture;
@@ -42,8 +44,6 @@ public class RetrieveTestFragment extends Fragment {
 
     //Constant
     private static final String TAG = "RetrieveTest";
-    public static final String EXTRA_SHOP_KEY = "shop_key";
-    private static String shopKey;
     String userId;
 
     public RetrieveTestFragment() {
@@ -57,6 +57,7 @@ public class RetrieveTestFragment extends Fragment {
         // [START create_database_reference]
         mShopReference = FirebaseDatabase.getInstance().getReference()
                 .child("user-shops").child(userId);
+        query = mShopReference.orderByKey().limitToLast(1);
         // [END create_database_reference]
     }
 
@@ -71,24 +72,21 @@ public class RetrieveTestFragment extends Fragment {
         dialog.setMessage("Loading data.");
         dialog.show();
 
-        if (mShopReference != null) {
             //Get data
             // Attach a listener to read the data at shops reference
-            mShopReference.addValueEventListener(new ValueEventListener() {
+            /*mShopReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     printShops((Map<String, Object>) dataSnapshot.getValue());
                     //Shop shop = dataSnapshot.getValue(Shop.class);
 
-                    /*shopName.setText(shop.getShopName());
+                    *//*shopName.setText(shop.getShopName());
                     Bitmap b =Calculations.base64ToBitmap(shop.getShopImage());
-                    shopPicture.setImageBitmap(b);*/
+                    shopPicture.setImageBitmap(b);*//*
                     if (dialog != null && dialog.isShowing()) {
                         dialog.dismiss();
                     }
-
                 }
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     // Getting Shop failed, log a message
@@ -98,10 +96,30 @@ public class RetrieveTestFragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                     // [END_EXCLUDE]
                 }
-            });
-        } else {
-            dialog.dismiss();
-        }
+            });*/
+        query.addValueEventListener(new ValueEventListener(){
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Shop shop = dataSnapshot.getValue(Shop.class);
+                Map<String,Object> map = (Map<String, Object>) dataSnapshot.getValue();
+                Map.Entry<String, Object > next = map.entrySet().iterator().next();
+                Map<String, String > custShop = (Map<String, String >) next.getValue();
+                String name = custShop.get("shopName");
+                String picture= custShop.get("shopImage");
+                shopName.setText(name);
+                Bitmap b =Calculations.base64ToBitmap(picture);
+                shopPicture.setImageBitmap(b);
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         return view;
     }
 
@@ -110,7 +128,7 @@ public class RetrieveTestFragment extends Fragment {
         super.onStop();
     }
 
-    //Loop thorugh all child nodes
+    //Loop thorugh all child nodes (NOT USED)
     private void printShops(Map<String, Object> shops) {
 
         String a;
