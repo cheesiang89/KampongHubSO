@@ -171,7 +171,7 @@ public class CreateTestFragment extends Fragment{
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // Create New Shop
-                            createNewShop(userId, "Lee", shopTitle, shopImage);
+                            createEntries(userId, "Lee", shopTitle, shopImage);
                             Toast.makeText(getActivity(),
                                     "Shop Created",
                                     Toast.LENGTH_SHORT).show();
@@ -206,7 +206,7 @@ public class CreateTestFragment extends Fragment{
     }
 
 
-    private void createNewShop(String userId, String username, String title, String body) {
+    private void createEntries(String userId, String username, String title, String body) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         String shopKey = mDatabase.child("shops").push().getKey();
@@ -216,15 +216,16 @@ public class CreateTestFragment extends Fragment{
         Map<String, Object> childUpdates = new HashMap<>();
 
         childUpdates.put("/shops/" + shopKey, shopValues);
+        childUpdates.put("/user-shops/" + userId+"/"+shopKey, shopValues);
 
         mDatabase.updateChildren(childUpdates);
 
         //Go to RetrievalFragment to show updates
-        Fragment fragment = new RetrieveTestFragment();
+       /* Fragment fragment = new RetrieveTestFragment();
         Bundle bundle = new Bundle();
         bundle.putString(RetrieveTestFragment.EXTRA_SHOP_KEY, shopKey);
         fragment.setArguments(bundle);
-        ((NavigationActivity)getActivity()).goFragment(fragment,R.id.screen_area);
+        ((NavigationActivity)getActivity()).goFragment(fragment,R.id.screen_area);*/
 
     }
 

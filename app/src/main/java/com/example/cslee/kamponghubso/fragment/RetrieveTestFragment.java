@@ -24,6 +24,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.example.cslee.kamponghubso.models.Shop;
+
+import java.util.ArrayList;
+import java.util.Map;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -40,6 +44,7 @@ public class RetrieveTestFragment extends Fragment {
     private static final String TAG = "RetrieveTest";
     public static final String EXTRA_SHOP_KEY = "shop_key";
     private static String shopKey;
+    String userId;
 
     public RetrieveTestFragment() {
         // Required empty public constructor
@@ -48,24 +53,11 @@ public class RetrieveTestFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Get shop key from intent
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            shopKey = bundle.getString(EXTRA_SHOP_KEY , null);
-            if (shopKey == null) {
-                mShopReference = FirebaseDatabase.getInstance().getReference()
-                        .child("shops");
-                throw new IllegalArgumentException("Must pass EXTRA_SHOP_KEY");
-            }
-            else{
-                // [START create_database_reference]
-                mShopReference = FirebaseDatabase.getInstance().getReference()
-                        .child("shops").child(shopKey);
-                // [END create_database_reference]
-
-            }
-        }
-
+        userId = ((NavigationActivity) getActivity()).getUid();
+        // [START create_database_reference]
+        mShopReference = FirebaseDatabase.getInstance().getReference()
+                .child("user-shops").child(userId);
+        // [END create_database_reference]
     }
 
     @Override
@@ -73,22 +65,24 @@ public class RetrieveTestFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_retrieve_test, container, false);
-        shopName = (TextView)view.findViewById(R.id.shopName);
+        shopName = (TextView) view.findViewById(R.id.shopName);
         shopPicture = (ImageView) view.findViewById(R.id.shopPicture);
-         dialog = new ProgressDialog(getActivity());
+        dialog = new ProgressDialog(getActivity());
         dialog.setMessage("Loading data.");
         dialog.show();
 
-        if (shopKey!=null) {
+        if (mShopReference != null) {
             //Get data
             // Attach a listener to read the data at shops reference
             mShopReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Shop shop = dataSnapshot.getValue(Shop.class);
+                    printShops((Map<String, Object>) dataSnapshot.getValue());
+                    //Shop shop = dataSnapshot.getValue(Shop.class);
 
-                    shopName.setText(shop.getShopName());
-                     shopPicture.setImageBitmap(Calculations.base64ToBitmap(shop.getShopImage()));
+                    /*shopName.setText(shop.getShopName());
+                    Bitmap b =Calculations.base64ToBitmap(shop.getShopImage());
+                    shopPicture.setImageBitmap(b);*/
                     if (dialog != null && dialog.isShowing()) {
                         dialog.dismiss();
                     }
@@ -105,11 +99,38 @@ public class RetrieveTestFragment extends Fragment {
                     // [END_EXCLUDE]
                 }
             });
-        }else{
+        } else {
             dialog.dismiss();
         }
         return view;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 
+    //Loop thorugh all child nodes
+    private void printShops(Map<String, Object> shops) {
+
+        String a;
+        //iterate through each user, ignoring their UID
+        //Only get one Value
+        int i = 0;
+        for (
+                Map.Entry<String, Object> shop : shops.entrySet()) {
+
+            //Get Shop map
+            Map singleShop = (Map) shop.getValue();
+            if (i == 0) {
+                shopName.setText((String) singleShop.get("shopName"));
+                Bitmap b = Calculations.base64ToBitmap((String) singleShop.get("shopImage"));
+                shopPicture.setImageBitmap(b);
+            } else
+                a = (String) singleShop.get("shopName");
+            i++;
+        }
+        i = 0;
+
+    }
 }

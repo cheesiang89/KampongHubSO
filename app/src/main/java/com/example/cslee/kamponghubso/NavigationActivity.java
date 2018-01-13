@@ -29,14 +29,16 @@ public class NavigationActivity extends AppCompatActivity {
    private String UserEmail;
    private Fragment fragment;
 
+   //Firebase variable
+    private FirebaseAuth mAuth=FirebaseAuth.getInstance(); // <== To prevent null error in getUid();;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         //chatBtn = (ImageButton)(findViewById(R.id.chatButton));
        // mTextMessage = (TextView)findViewById(R.id.message);
-
-        Bundle extras = getIntent().getExtras();
+         Bundle extras = getIntent().getExtras();
         if(extras == null)
         {UserEmail = null;}
         else
@@ -160,7 +162,7 @@ public class NavigationActivity extends AppCompatActivity {
     }
     //Get Firebase Uid
     public String getUid() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+        return mAuth.getCurrentUser().getUid();
     }
 
 }
