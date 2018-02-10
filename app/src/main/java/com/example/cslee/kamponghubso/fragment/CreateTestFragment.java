@@ -79,6 +79,13 @@ public class CreateTestFragment extends Fragment{
         createPicture=(ImageView)view.findViewById(R.id.createPicture);
                 createName = (EditText)view.findViewById(R.id.createName);
                 errorMessage=(TextView)view.findViewById(R.id.errorMessage);
+        btnUploadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Select picture and populate ImageView after
+                getPicture();
+            }
+        });
                 btnCreate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -86,13 +93,7 @@ public class CreateTestFragment extends Fragment{
                         createShop();
                     }
                 });
-                btnUploadImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Select picture and populate ImageView after
-                        getPicture();
-                    }
-                });
+
                 return view;
             }
 
@@ -137,7 +138,7 @@ public class CreateTestFragment extends Fragment{
         return  pic;
     }
     private void createShop() {
-        final String shopTitle = createName.getText().toString();
+        final String shopTitle = createName.getText().toString().trim();
         final String shopImage = Calculations.bitmapToBase64(selectedPicture);
 
         // Title is required
@@ -171,7 +172,7 @@ public class CreateTestFragment extends Fragment{
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // Create New Shop
-                            createEntries(userId, "Lee", shopTitle, shopImage);
+                            createEntries(userId,  shopTitle, shopImage);
                             Toast.makeText(getActivity(),
                                     "Shop Created",
                                     Toast.LENGTH_SHORT).show();
@@ -206,17 +207,16 @@ public class CreateTestFragment extends Fragment{
     }
 
 
-    private void createEntries(String userId, String username, String title, String body) {
-        // Create new post at /user-posts/$userid/$postid and at
-        // /posts/$postid simultaneously
+    private void createEntries(String shopOwnerUid, String shopName, String shopImage) {
+        // Create shop at /shops/ and /user/shops simultaneously
         String shopKey = mDatabase.child("shops").push().getKey();
-        Shop shop = new Shop(userId, username, title, body);
+        Shop shop = new Shop("1", "2", "3","4","5");
         //To create new shop. If need to update multiple places, have more entries in "ChildUpdates"
         Map<String, Object> shopValues = shop.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
 
         childUpdates.put("/shops/" + shopKey, shopValues);
-        childUpdates.put("/user-shops/" + userId+"/"+shopKey, shopValues);
+        childUpdates.put("/users/" + shopOwnerUid+"/"+"shops/"+shopKey, shopValues);
 
         mDatabase.updateChildren(childUpdates);
 

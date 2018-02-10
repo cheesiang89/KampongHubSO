@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.cslee.kamponghubso.fragment.CreateShopFragment;
 import com.example.cslee.kamponghubso.fragment.CreateTestFragment;
 import com.example.cslee.kamponghubso.fragment.EditTestFragment;
 import com.example.cslee.kamponghubso.fragment.RetrieveTestFragment;
@@ -128,11 +129,12 @@ public class NavigationActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
 
-                case R.id.navigation_home:
+                case R.id.navigation_shop:
                     //mTextMessage.setText(R.string.title_chat);
                     Toast.makeText(NavigationActivity.this, "CreateShop", Toast.LENGTH_SHORT).show();
-                    fragment= new CreateTestFragment();
+                    fragment= new CreateShopFragment();
                     goFragment(fragment,R.id.screen_area);
+                    getSupportActionBar().setTitle("Shop Details");
                     return true;
 
                 case R.id.navigation_dashboard:

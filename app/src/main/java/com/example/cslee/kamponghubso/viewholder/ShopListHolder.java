@@ -36,7 +36,7 @@ public class ShopListHolder extends RecyclerView.ViewHolder{
     }
     public void bindToList(Shop shop,View.OnClickListener chatClickListener) {
         setShopName(shop.getShopName());
-        setImage(shop.getShopImageUrl());
+        //setImage(shop.getShopImageUrl());
         setShopOpen(shop.getTimeStart(),shop.getTimeEnd(),"1200");
         setTime(shop.getTimeStart(),shop.getTimeEnd());
         setDistance("A","B");

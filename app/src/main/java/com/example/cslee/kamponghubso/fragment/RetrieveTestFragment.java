@@ -56,7 +56,7 @@ public class RetrieveTestFragment extends Fragment {
         userId = ((NavigationActivity) getActivity()).getUid();
         // [START create_database_reference]
         mShopReference = FirebaseDatabase.getInstance().getReference()
-                .child("user-shops").child(userId);
+                .child("users").child(userId).child("shops");
         query = mShopReference.orderByKey().limitToLast(1);
         // [END create_database_reference]
     }

@@ -39,4 +39,9 @@ public class Calculations {
 
     }
 
+    public static String calculateZone(String postalCode){
+        String zone ="";
+        return zone;
+    }
+
 }
