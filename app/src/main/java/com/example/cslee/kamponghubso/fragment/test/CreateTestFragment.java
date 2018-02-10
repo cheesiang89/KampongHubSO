@@ -1,4 +1,4 @@
-package com.example.cslee.kamponghubso.fragment;
+package com.example.cslee.kamponghubso.fragment.test;
 
 import android.app.Activity;
 import android.content.Context;
@@ -208,7 +208,7 @@ public class CreateTestFragment extends Fragment{
 
 
     private void createEntries(String shopOwnerUid, String shopName, String shopImage) {
-        // Create shop at /shops/ and /user/shops simultaneously
+     /*   // Create shop at /shops/ and /user/shops simultaneously
         String shopKey = mDatabase.child("shops").push().getKey();
         Shop shop = new Shop("1", "2", "3","4","5");
         //To create new shop. If need to update multiple places, have more entries in "ChildUpdates"
@@ -219,7 +219,7 @@ public class CreateTestFragment extends Fragment{
         childUpdates.put("/users/" + shopOwnerUid+"/"+"shops/"+shopKey, shopValues);
 
         mDatabase.updateChildren(childUpdates);
-
+*/
         //Go to RetrievalFragment to show updates
        /* Fragment fragment = new RetrieveTestFragment();
         Bundle bundle = new Bundle();
