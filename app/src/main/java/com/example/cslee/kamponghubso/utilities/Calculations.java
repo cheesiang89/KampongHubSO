@@ -1,10 +1,18 @@
 package com.example.cslee.kamponghubso.utilities;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.List;
+
+import android.location.Address;
+import android.location.Geocoder;
 import android.util.Base64;
 import android.graphics.BitmapFactory;
+
+import com.google.android.gms.maps.model.LatLng;
 
 public class Calculations {
 
@@ -18,7 +26,8 @@ public class Calculations {
             return "24hrs";
         }
         else{
-            return (String.format("%s am to %s pm",timeStart,timeEnd));
+
+            return (String.format("%s to %s",timeStart,timeEnd));
         }
     }
     public static String calcDistance(String currentDistance, String shopCoordinates){
@@ -293,13 +302,30 @@ public class Calculations {
 
         return zone;
     }
-    public static String getLatFromPostal(String postalCode){
-        String latitude ="";
-        return latitude;
-    }
-    public static String getLongFromPostal(String postalCode){
-        String longtitude ="";
-        return longtitude;
+
+    public static LatLng getLatLngFromPostal(Context context, String postalCode){
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(postalCode, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+        }
+
+        return p1;
     }
     public static boolean checkPostalValid(String postalCode){
       boolean valid = false;

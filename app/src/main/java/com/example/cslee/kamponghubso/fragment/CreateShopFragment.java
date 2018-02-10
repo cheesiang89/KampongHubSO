@@ -250,7 +250,7 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
                         } else {
                             // Create New Shop
                             Shop shop = new Shop(userId, shopTitle, shopImage,
-                                    address, postal, sTime, eTime);
+                                    address, postal, sTime, eTime, getContext());
 
                             createEntries(shop);
                             Toast.makeText(getActivity(),

@@ -1,5 +1,7 @@
 package com.example.cslee.kamponghubso.models;
 
+import android.content.Context;
+
 import com.example.cslee.kamponghubso.utilities.Calculations;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -36,7 +38,7 @@ public class Shop {
 
     public Shop(String shopOwnerUid, String shopname, String shopImage,
                 String address, String postal,
-                String timeEnd, String timeStart) {
+                String timeEnd, String timeStart, Context context) {
         this.shopOwnerUid= shopOwnerUid;
         this.shopName= shopname;
          this.shopAddress=address;
@@ -45,8 +47,8 @@ public class Shop {
         this.shopPostal = postal;
 
         //Calculated
-        this.shopLatitude= "11"; //HARDCODE FIRST
-        this.shopLongitude="2";//HARDCODE FIRST
+        this.shopLatitude= String.valueOf(Calculations.getLatLngFromPostal(context,postal).latitude); //HARDCODE FIRST
+        this.shopLongitude=String.valueOf(Calculations.getLatLngFromPostal(context,postal).longitude);//HARDCODE FIRST
         this.shopZone = Calculations.calculateZone(postal);
 
 /*        this.shopLatitude= shopLatitude;
