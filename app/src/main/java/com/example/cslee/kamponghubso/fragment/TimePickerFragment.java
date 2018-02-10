@@ -9,6 +9,8 @@ import android.text.format.DateFormat;
 import android.widget.TextView;
 import android.app.DialogFragment;
 import android.app.Dialog;
+
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import android.widget.TimePicker;
 
@@ -63,7 +65,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
         // TimePickerDialog Theme : THEME_HOLO_LIGHT
         TimePickerDialog tpd4 = new TimePickerDialog(getActivity(),
-                AlertDialog.THEME_HOLO_LIGHT,this,hour,minute,false);
+                AlertDialog.THEME_HOLO_LIGHT,this,hour,minute,true);
 
         // TimePickerDialog Theme : THEME_TRADITIONAL
         TimePickerDialog tpd5 = new TimePickerDialog(getActivity(),
@@ -80,28 +82,24 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         //Calculate am/pm
         String format;
         if (hourOfDay == 0) {
-
             hourOfDay += 12;
-
             format = "AM";
         }
         else if (hourOfDay == 12) {
-
             format = "PM";
-
         }
         else if (hourOfDay > 12) {
-
             hourOfDay -= 12;
-
             format = "PM";
-
         }
         else {
-
             format = "AM";
         }
         //Do something with the user chosen time
-        tpdfe.onTimeSelected(String.valueOf(hourOfDay)+":"+String.valueOf(minute)+format,flag); //Changed
+        DecimalFormat formatter = new DecimalFormat("00");
+        String hourFormatted = formatter.format(hourOfDay);
+        String minFormatted = formatter.format(minute);
+
+        tpdfe.onTimeSelected(hourFormatted+":"+minFormatted+format,flag); //Changed
     }
 }

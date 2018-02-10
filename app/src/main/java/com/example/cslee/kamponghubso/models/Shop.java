@@ -1,5 +1,6 @@
 package com.example.cslee.kamponghubso.models;
 
+import com.example.cslee.kamponghubso.utilities.Calculations;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -46,7 +47,7 @@ public class Shop {
         //Calculated
         this.shopLatitude= "11"; //HARDCODE FIRST
         this.shopLongitude="2";//HARDCODE FIRST
-        this.shopZone ="WEST"; // HardCode First
+        this.shopZone = Calculations.calculateZone(postal);
 
 /*        this.shopLatitude= shopLatitude;
         this.shopLongitude=shopLongitude;
