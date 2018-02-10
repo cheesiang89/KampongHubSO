@@ -41,6 +41,7 @@ public class Shop {
                 String timeEnd, String timeStart, Context context) {
         this.shopOwnerUid= shopOwnerUid;
         this.shopName= shopname;
+        this.shopImage = shopImage;
          this.shopAddress=address;
         this.timeEnd=timeEnd;
         this.timeStart=timeStart;

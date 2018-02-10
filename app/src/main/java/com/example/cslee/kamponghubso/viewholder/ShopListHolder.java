@@ -3,6 +3,7 @@ package com.example.cslee.kamponghubso.viewholder;
 /**
  * Created by CSLee on 23/12/2017.
  */
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,9 +35,9 @@ public class ShopListHolder extends RecyclerView.ViewHolder{
         shopDistance = (TextView)itemView.findViewById(R.id.shopDistance);
 
     }
-    public void bindToList(Shop shop,View.OnClickListener chatClickListener) {
+    public void bindToList(Shop shop,View.OnClickListener clickListener) {
         setShopName(shop.getShopName());
-        //setImage(shop.getShopImageUrl());
+        setImage(shop.getShopImage());
         setShopOpen(shop.getTimeStart(),shop.getTimeEnd(),"1200");
         setTime(shop.getTimeStart(),shop.getTimeEnd());
         setDistance("A","B");
@@ -47,11 +48,16 @@ public class ShopListHolder extends RecyclerView.ViewHolder{
         shopName.setText(title);
     }
 
-    public void setImage(String imageUrl)
+    public void setImage(String shopImageString)
     {
+        //Get Bitmap from base64
+        Bitmap bitmap = Calculations.base64ToBitmap(shopImageString);
+        shopImage.setImageBitmap(bitmap);
+
+/*        //OLD CODE
         Picasso.with(itemView.getContext())
                 .load(imageUrl)
-                .into(shopImage);
+                .into(shopImage);*/
     }
     public void setShopOpen(String timeStart, String timeEnd, String currentTime){
         //TODO: Calculate is shop open

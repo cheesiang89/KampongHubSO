@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.cslee.kamponghubso.fragment.CreateShopFragment;
 import com.example.cslee.kamponghubso.fragment.EditTestFragment;
 import com.example.cslee.kamponghubso.fragment.RetrieveTestFragment;
+import com.example.cslee.kamponghubso.fragment.ShopListFragment;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -130,10 +131,10 @@ public class NavigationActivity extends AppCompatActivity {
 
                 case R.id.navigation_shop:
                     //mTextMessage.setText(R.string.title_chat);
-                    Toast.makeText(NavigationActivity.this, "CreateShop", Toast.LENGTH_SHORT).show();
-                    fragment= new CreateShopFragment();
+                    Toast.makeText(NavigationActivity.this, "Shop List", Toast.LENGTH_SHORT).show();
+                    fragment= new ShopListFragment();
                     goFragment(fragment,R.id.screen_area);
-                    getSupportActionBar().setTitle("Shop Details");
+                    getSupportActionBar().setTitle("Shop List");
                     return true;
 
                 case R.id.navigation_dashboard:
