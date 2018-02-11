@@ -397,6 +397,9 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
                                     "Shop Created",
                                     Toast.LENGTH_SHORT).show();
                             clearScreen();
+                            // Go back ShopList
+                            Fragment newFragment= new ShopListFragment();
+                            ((NavigationActivity)getActivity()).goFragment(newFragment,R.id.screen_area);
                         }
 
                         // Finish this Activity, back to the stream
