@@ -359,7 +359,7 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
 
         // Set default image if no picture selected
         if (!hasImage(createPicture)) {
-            selectedPicture= BitmapFactory.decodeResource(getResources(), R.drawable.ic_store_black_24dp);
+            selectedPicture= BitmapFactory.decodeResource(getResources(), R.drawable.no_image);
 
         }
         final String shopImage = Calculations.bitmapToBase64(selectedPicture);
