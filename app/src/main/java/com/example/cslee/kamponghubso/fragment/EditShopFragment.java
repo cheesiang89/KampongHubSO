@@ -15,6 +15,7 @@ import com.example.cslee.kamponghubso.R;
  */
 public class EditShopFragment extends Fragment {
 
+    public static final String SHOP_DETAIL_KEY = "shop_detail_key";
 
     public EditShopFragment() {
         // Required empty public constructor

@@ -22,8 +22,7 @@ public class Shop {
     private String shopPostal;
     private String timeEnd;
     private String timeStart;
-
-
+    private Long phoneNumber;
     private String shopDescription;
 
 
@@ -40,7 +39,8 @@ public class Shop {
 
     public Shop(String shopOwnerUid, String shopname, String shopImage,
                 String address, String postal,
-                String timeEnd, String timeStart, String shopDescription, Context context) {
+                String timeEnd, String timeStart, String shopDescription,
+                String phoneNumber, Context context) {
         this.shopOwnerUid= shopOwnerUid;
         this.shopName= shopname;
         this.shopImage = shopImage;
@@ -49,6 +49,7 @@ public class Shop {
         this.timeStart=timeStart;
         this.shopPostal = postal;
         this.shopDescription= shopDescription;
+        this.phoneNumber=Long.parseLong(phoneNumber);
 
         //Calculated
         this.shopLatitude= String.valueOf(Calculations.getLatLngFromPostal(context,postal).latitude); //HARDCODE FIRST
@@ -122,7 +123,13 @@ public class Shop {
     public void setShopZone(String shopZone) {
         this.shopZone = shopZone;
     }
+    public Long getPhoneNumber() {
+        return phoneNumber;
+    }
 
+    public void setPhoneNumber(Long phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
     public String getShopDescription() {
         return shopDescription;
     }
@@ -145,6 +152,7 @@ public class Shop {
         result.put("timeStart", timeStart);
         result.put("shopDescription", shopDescription);
         result.put("shopZone", shopZone);
+        result.put("phoneNumber", phoneNumber);
         return result;
     }
 

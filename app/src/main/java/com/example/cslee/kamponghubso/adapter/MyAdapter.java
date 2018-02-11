@@ -1,5 +1,6 @@
 package com.example.cslee.kamponghubso.adapter;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.cslee.kamponghubso.NavigationActivity;
 import com.example.cslee.kamponghubso.R;
+import com.example.cslee.kamponghubso.fragment.EditShopFragment;
 import com.example.cslee.kamponghubso.models.Shop;
 import com.example.cslee.kamponghubso.viewholder.ShopListHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -46,11 +48,11 @@ public class MyAdapter extends FirebaseRecyclerAdapter<Shop, ShopListHolder> {
             @Override
             public void onClick(View v) {
                 // Launch ShopDetailActivity
-                /*Fragment newFragment= new ShopDetailFragment();
+                Fragment newFragment= new EditShopFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString(ShopDetailFragment.SHOP_DETAIL_KEY, shopKey);
+                bundle.putString(EditShopFragment.SHOP_DETAIL_KEY, shopKey);
                 newFragment.setArguments(bundle);
-                ((NavigationActivity)fragment.getActivity()).goFragment(newFragment,R.id.screen_area);*/
+                ((NavigationActivity)fragment.getActivity()).goFragment(newFragment,R.id.screen_area);
             }
         });
         viewHolder.bindToList(model,new View.OnClickListener(){

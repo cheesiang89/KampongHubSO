@@ -54,6 +54,7 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
     private TextView shopPostal;
     private TextView shopName;
     private TextView shopDescription;
+    private TextView phoneNumber;
     private Button btnCreate;
     private Button btnUploadImage;
     private Button btnDeleteImage;
@@ -88,6 +89,7 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
         shopPostal = (EditText) view.findViewById(R.id.shopPostal);
         shopName = (EditText) view.findViewById(R.id.shopName);
         shopDescription=(EditText) view.findViewById(R.id.shopDescription);
+        phoneNumber=(EditText) view.findViewById(R.id.phoneNumber);
         startTime.setOnClickListener(this);
         endTime.setOnClickListener(this);
 
@@ -274,7 +276,20 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
 
             }
         });
+        phoneNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                phoneNumber.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
     private Bitmap getImageFromPhone(Uri imageUri) {
         Bitmap pic = null;
@@ -312,6 +327,8 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
         shopName.clearFocus();
         shopDescription.setText("");
         shopDescription.clearFocus();
+        phoneNumber.setText("");
+        phoneNumber.clearFocus();
         createPicture.setImageDrawable(null);
         createPicture.setVisibility(View.GONE);
         btnDeleteImage.setVisibility(View.GONE);
@@ -325,17 +342,18 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
        final String sTime = startTime.getText().toString().trim();
         final String eTime = endTime.getText().toString().trim();
         final String description = shopDescription.getText().toString().trim();
-
+        final String phone = phoneNumber.getText().toString().trim();
         //Check fields
-        Map<Object,String> controls = new HashMap<>();
-        controls.put(shopName,shopTitle);
-        controls.put(shopAddress,address);
-        controls.put(shopPostal,postal);
-        controls.put(startTime,sTime);
-        controls.put(endTime,eTime);
-        controls.put(shopDescription,description);
+        Map<Object,String> requiredControls = new HashMap<>();
+        requiredControls.put(shopName,shopTitle);
+        requiredControls.put(shopAddress,address);
+        requiredControls.put(shopPostal,postal);
+        requiredControls.put(startTime,sTime);
+        requiredControls.put(endTime,eTime);
+        requiredControls.put(shopDescription,description);
+        requiredControls.put(phoneNumber,phone);
         //if got error
-        if(validateFields(controls)){
+        if(validateFields(requiredControls)){
             return;
         };
 
@@ -367,8 +385,12 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // Create New Shop
-                            Shop shop = new Shop(userId, shopTitle, shopImage,
-                                    address, postal, sTime, eTime,description, getContext());
+                            Shop shop = new Shop(userId,
+                                    shopTitle, shopImage,
+                                    address, postal,
+                                    sTime, eTime,
+                                    description,phone,
+                                    getContext());
 
                             createEntries(shop);
                             Toast.makeText(getActivity(),

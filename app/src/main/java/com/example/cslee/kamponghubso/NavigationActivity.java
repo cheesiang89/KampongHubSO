@@ -21,6 +21,7 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -43,6 +44,7 @@ public class NavigationActivity extends AppCompatActivity {
         {UserEmail = null;}
         else
         {UserEmail = extras.getString("email");}
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
        /* chatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
