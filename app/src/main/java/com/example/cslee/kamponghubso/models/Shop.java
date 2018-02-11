@@ -52,14 +52,12 @@ public class Shop {
         this.phoneNumber=Long.parseLong(phoneNumber);
 
         //Calculated
-        this.shopLatitude= String.valueOf(Calculations.getLatLngFromPostal(context,postal).latitude); //HARDCODE FIRST
-        this.shopLongitude=String.valueOf(Calculations.getLatLngFromPostal(context,postal).longitude);//HARDCODE FIRST
+
+        this.shopLatitude= String.valueOf(Calculations.getLatLngFromPostal(context,postal).latitude);
+        this.shopLongitude=String.valueOf(Calculations.getLatLngFromPostal(context,postal).longitude);
         this.shopZone = Calculations.calculateZone(postal);
 
-/*        this.shopLatitude= shopLatitude;
-        this.shopLongitude=shopLongitude;
-        this.shopZone ="WEST";
-        */
+
     }
 
 

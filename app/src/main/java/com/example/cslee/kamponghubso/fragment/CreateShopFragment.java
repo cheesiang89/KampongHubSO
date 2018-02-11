@@ -2,6 +2,8 @@ package com.example.cslee.kamponghubso.fragment;
 
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -60,6 +62,8 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
     private Button btnDeleteImage;
     private ImageView createPicture;
     private Bitmap selectedPicture;
+
+    private ProgressDialog dialog;
 
     public static final int PICK_IMAGE = 1;
     private static final String REQUIRED = "Required";
@@ -347,10 +351,11 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
         Map<Object,String> requiredControls = new HashMap<>();
         requiredControls.put(shopName,shopTitle);
         requiredControls.put(shopAddress,address);
-        requiredControls.put(shopPostal,postal);
         requiredControls.put(startTime,sTime);
         requiredControls.put(endTime,eTime);
         requiredControls.put(shopDescription,description);
+        //Postal and phone need extra check
+        requiredControls.put(shopPostal,postal);
         requiredControls.put(phoneNumber,phone);
         //if got error
         if(validateFields(requiredControls)){
@@ -366,7 +371,10 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
 
         // Disable "Create" button so only after all info gathered then Create Shop
         setEditingEnabled(false);
-        Toast.makeText(getActivity(), "Creating Shop...", Toast.LENGTH_SHORT).show();
+        dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("Creating shop...");
+        dialog.show();
+       /* Toast.makeText(getActivity(), "Creating Shop...", Toast.LENGTH_SHORT).show();*/
         // [START single_value_read]
         final String userId = ((NavigationActivity)getActivity()).getUid();
         mDatabase.child("users").child(userId).addListenerForSingleValueEvent(
@@ -385,26 +393,46 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // Create New Shop
-                            Shop shop = new Shop(userId,
-                                    shopTitle, shopImage,
-                                    address, postal,
-                                    sTime, eTime,
-                                    description,phone,
-                                    getContext());
-
-                            createEntries(shop);
-                            Toast.makeText(getActivity(),
-                                    "Shop Created",
-                                    Toast.LENGTH_SHORT).show();
-                            clearScreen();
-                            // Go back ShopList
-                            Fragment newFragment= new ShopListFragment();
-                            ((NavigationActivity)getActivity()).goFragment(newFragment,R.id.screen_area);
+                            try {
+                                Shop shop = new Shop(userId,
+                                        shopTitle, shopImage,
+                                        address, postal,
+                                        sTime, eTime,
+                                        description, phone,
+                                        getContext());
+                                createEntries(shop);
+                             /*   Toast.makeText(getActivity(),
+                                        "Shop Created",
+                                        Toast.LENGTH_SHORT).show();*/
+                                if (dialog != null && dialog.isShowing()) {
+                                    dialog.dismiss();
+                                }
+                                clearScreen();
+                                // Go back ShopList
+                                Fragment newFragment= new ShopListFragment();
+                                ((NavigationActivity)getActivity()).goFragment(newFragment,R.id.screen_area);
+                            }catch(IndexOutOfBoundsException iobe){
+                                //Check postal code validity here only
+                                Log.e(TAG, "on Create Shop: "+iobe.getMessage() );
+                                if (dialog != null && dialog.isShowing()) {
+                                    dialog.dismiss();
+                                }
+                                shopPostal.setError("Postal code invalid");
+                                // Back to the screen
+                                setEditingEnabled(true);
+                            } catch(Exception ex){
+                                //Check postal code validity here only
+                                Log.e(TAG, "on Create Shop: "+ex.getMessage() );
+                                if (dialog != null && dialog.isShowing()) {
+                                    dialog.dismiss();
+                                }
+                                Toast.makeText(getActivity(),
+                                        "Error. Check your entry",
+                                        Toast.LENGTH_LONG).show();
+                                 // Back to the screen
+                                setEditingEnabled(true);
+                            }
                         }
-
-                        // Finish this Activity, back to the stream
-                        setEditingEnabled(true);
-
                         // [END_EXCLUDE]
                     }
 
@@ -427,6 +455,20 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
             if (TextUtils.isEmpty(pair.getValue().toString())) {
                 ((TextView) pair.getKey()).setError(REQUIRED);
                 gotErrors=true;
+            }
+            //Extra check for Phonenumber and Postal (partial check: only 1st 2 digits valid, back 4 follows unknown logic)
+            if((pair.getKey()).equals(phoneNumber)){
+                if(!Calculations.checkTelephoneValid(pair.getValue().toString())){
+                    ((TextView) pair.getKey()).setError("Phone number invalid");
+                    gotErrors=true;
+                }
+            }
+
+            if((pair.getKey()).equals(shopPostal)){
+                if(!Calculations.checkPostalValid(pair.getValue().toString())){
+                    ((TextView) pair.getKey()).setError("Postal Code invalid");
+                    gotErrors=true;
+                }
             }
             it.remove(); // avoids a ConcurrentModificationException
         }

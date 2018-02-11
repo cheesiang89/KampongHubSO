@@ -329,8 +329,19 @@ public class Calculations {
     }
     public static boolean checkPostalValid(String postalCode){
       boolean valid = false;
-
+      //NOTE: Not foolproof: Back 4 digits follow some unknown logic. Also add try-catch when creating shop
+        //1st 2 digits must be between 01-82
+        if(Integer.parseInt(postalCode.substring(0,2))<83 && Integer.parseInt(postalCode.substring(0,2))>0 )
+        {
+            // Must have 6 digits
+            if(postalCode.length()==6){
+                valid=true;
+            }
+        }
       return valid;
     }
+    public static boolean checkTelephoneValid(String phoneNumber){
+        return phoneNumber.matches("^[689]\\d{7}$");
 
+    }
 }
