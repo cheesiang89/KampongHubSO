@@ -12,9 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.cslee.kamponghubso.fragment.CreateShopFragment;
-import com.example.cslee.kamponghubso.fragment.EditTestFragment;
-import com.example.cslee.kamponghubso.fragment.RetrieveTestFragment;
+import com.example.cslee.kamponghubso.fragment.ShopAdFragment;
+import com.example.cslee.kamponghubso.fragment.test.EditTestFragment;
 import com.example.cslee.kamponghubso.fragment.ShopListFragment;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -62,7 +61,7 @@ public class NavigationActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.screen_area,fragment);
         fragmentTransaction.commit();*/
-
+        getSupportActionBar().setTitle("Main");
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
@@ -105,11 +104,6 @@ public class NavigationActivity extends AppCompatActivity {
             case R.id.menu_search:
                 Toast.makeText(this,"Search",Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.menu_newFragment:
-                Toast.makeText(this,"Filter",Toast.LENGTH_SHORT).show();
-                 /* fragment= new MapsFragment();
-                goFragment(fragment,R.id.screen_area);*/
-                return true;
 
             case R.id.menu_logout:
                 logOut();
@@ -131,22 +125,23 @@ public class NavigationActivity extends AppCompatActivity {
 
                 case R.id.navigation_shop:
                     //mTextMessage.setText(R.string.title_chat);
-                    Toast.makeText(NavigationActivity.this, "Shop List", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NavigationActivity.this, "My Shops", Toast.LENGTH_SHORT).show();
                     fragment= new ShopListFragment();
                     goFragment(fragment,R.id.screen_area);
                     getSupportActionBar().setTitle("Shop List");
                     return true;
 
-                case R.id.navigation_dashboard:
+                case R.id.navigation_chat:
                     //mTextMessage.setText(R.string.title_chat);
-                    Toast.makeText(NavigationActivity.this, "RetrieveShop", Toast.LENGTH_SHORT).show();
-                    fragment= new RetrieveTestFragment();
-                    goFragment(fragment,R.id.screen_area);
+                    Toast.makeText(NavigationActivity.this, "Chat", Toast.LENGTH_SHORT).show();
+
+                    //TODO: Chat
+
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_advert:
                    // mTextMessage.setText(R.string.title_bookmark);
-                    Toast.makeText(NavigationActivity.this, "EditShop", Toast.LENGTH_SHORT).show();
-                   fragment = new EditTestFragment();
+                    Toast.makeText(NavigationActivity.this, "My Ads", Toast.LENGTH_SHORT).show();
+                   fragment = new ShopAdFragment();
                     goFragment(fragment,R.id.screen_area);
                     return true;
 

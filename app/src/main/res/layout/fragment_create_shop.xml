@@ -174,19 +174,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblPostal" />
 
-        <TextView
-            android:id="@+id/lblDescription2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
-            android:text="(max 255 characters)"
-            android:textAlignment="textStart"
-            android:textSize="10sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblDescription" />
-
         <EditText
             android:id="@+id/shopDescription"
             android:layout_width="wrap_content"
@@ -196,7 +183,6 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:inputType="textMultiLine"
-            android:maxLength="255"
             android:singleLine="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.366"

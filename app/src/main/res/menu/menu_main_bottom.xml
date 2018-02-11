@@ -4,16 +4,16 @@
     <item
         android:id="@+id/navigation_shop"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="Shop Details" />
+        android:title="My Shops" />
 
     <item
-        android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="RetrieveShop" />
-
+        android:id="@+id/navigation_chat"
+        android:icon="@drawable/ic_chat_bubble_outline_black_24dp"
+        android:title="My Chats" />
     <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="EditShop" />
+        android:id="@+id/navigation_advert"
+        android:icon="@drawable/ic_description_black_24dp"
+        android:title="My Ads" />
+
 
 </menu>

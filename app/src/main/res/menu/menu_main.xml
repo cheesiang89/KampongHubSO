@@ -9,13 +9,7 @@
         android:title="Search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always" />
-    //Item
-    <item
-        android:id="@+id/menu_newFragment"
-        android:icon="@android:drawable/ic_menu_search"
-        android:orderInCategory="2"
-        android:title="New Fragment"
-        app:showAsAction="ifRoom" />
+
 
        //Logout
     <item
