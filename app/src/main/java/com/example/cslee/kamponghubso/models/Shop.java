@@ -3,6 +3,7 @@ package com.example.cslee.kamponghubso.models;
 import android.content.Context;
 
 import com.example.cslee.kamponghubso.utilities.Calculations;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -52,14 +53,12 @@ public class Shop {
         this.phoneNumber=Long.parseLong(phoneNumber);
 
         //Calculated
-
-        this.shopLatitude= String.valueOf(Calculations.getLatLngFromPostal(context,postal).latitude);
-        this.shopLongitude=String.valueOf(Calculations.getLatLngFromPostal(context,postal).longitude);
+        LatLng coordinates= Calculations.getLatLngFromPostal(context,postal);
+        this.shopLatitude= String.valueOf(coordinates.latitude);
+        this.shopLongitude=String.valueOf(coordinates.longitude);
         this.shopZone = Calculations.calculateZone(postal);
 
-
     }
-
 
     public String getShopName() {
         return shopName;
