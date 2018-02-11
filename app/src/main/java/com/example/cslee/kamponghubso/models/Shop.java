@@ -24,6 +24,8 @@ public class Shop {
     private String timeStart;
 
 
+    private String shopDescription;
+
 
     //Calculated
     private String shopLatitude;
@@ -38,7 +40,7 @@ public class Shop {
 
     public Shop(String shopOwnerUid, String shopname, String shopImage,
                 String address, String postal,
-                String timeEnd, String timeStart, Context context) {
+                String timeEnd, String timeStart, String shopDescription, Context context) {
         this.shopOwnerUid= shopOwnerUid;
         this.shopName= shopname;
         this.shopImage = shopImage;
@@ -46,6 +48,7 @@ public class Shop {
         this.timeEnd=timeEnd;
         this.timeStart=timeStart;
         this.shopPostal = postal;
+        this.shopDescription= shopDescription;
 
         //Calculated
         this.shopLatitude= String.valueOf(Calculations.getLatLngFromPostal(context,postal).latitude); //HARDCODE FIRST
@@ -120,10 +123,17 @@ public class Shop {
         this.shopZone = shopZone;
     }
 
+    public String getShopDescription() {
+        return shopDescription;
+    }
+
+    public void setShopDescription(String shopDescription) {
+        this.shopDescription = shopDescription;
+    }
     // "toMap" is to put the whole object as Hashmap in Firebase child branch ("Shops")
     @Exclude
     public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
+       Map<String, Object> result = new HashMap<>();
         result.put("shopOwnerUid", shopOwnerUid);
         result.put("shopName", shopName);
         result.put("shopImage", shopImage);
@@ -133,6 +143,7 @@ public class Shop {
         result.put("shopLongitude", shopLongitude);
         result.put("timeEnd", timeEnd);
         result.put("timeStart", timeStart);
+        result.put("shopDescription", shopDescription);
         result.put("shopZone", shopZone);
         return result;
     }

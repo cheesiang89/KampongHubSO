@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -50,8 +53,10 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
     private TextView shopAddress;
     private TextView shopPostal;
     private TextView shopName;
+    private TextView shopDescription;
     private Button btnCreate;
     private Button btnUploadImage;
+    private Button btnDeleteImage;
     private ImageView createPicture;
     private Bitmap selectedPicture;
 
@@ -79,19 +84,30 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.fragment_create_shop, container, false);
         startTime = (TextView) view.findViewById(R.id.startTime);
         endTime = (TextView) view.findViewById(R.id.endTime);
-        shopAddress = (TextView) view.findViewById(R.id.shopAddress);
-        shopPostal = (TextView) view.findViewById(R.id.shopPostal);
-        shopName = (TextView) view.findViewById(R.id.shopName);
+        shopAddress = (EditText) view.findViewById(R.id.shopAddress);
+        shopPostal = (EditText) view.findViewById(R.id.shopPostal);
+        shopName = (EditText) view.findViewById(R.id.shopName);
+        shopDescription=(EditText) view.findViewById(R.id.shopDescription);
         startTime.setOnClickListener(this);
         endTime.setOnClickListener(this);
+
+        //Set text change listeners to get rid of required field error
+        addTextListeners();
+
         //For image
         btnUploadImage=(Button)view.findViewById(R.id.btnUploadImage);
         btnUploadImage.setOnClickListener(this);
+        btnDeleteImage=(Button)view.findViewById(R.id.btnDeleteImage);
+        btnDeleteImage.setOnClickListener(this);
+        btnDeleteImage.setEnabled(false);
+        btnDeleteImage.setVisibility(View.GONE);
 
         createPicture=(ImageView)view.findViewById(R.id.createPicture);
+        createPicture.setVisibility(View.GONE);
 
         btnCreate = (Button)view.findViewById(R.id.btnCreateShop);
         btnCreate.setOnClickListener(this);
+
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Create Shop");
         return view;
@@ -113,6 +129,9 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
         }else if (id==R.id.btnUploadImage){
             // Select picture and populate ImageView after
             getPicture();
+        }else if (id==R.id.btnDeleteImage){
+            // Select picture and populate ImageView after
+            deletePicture();
         }else if(id==R.id.btnCreateShop){
             // Create Shop
             createShop();
@@ -123,11 +142,13 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
     public void onTimeSelected(String time, int flag) {
         if (flag == 0) {
             startTime.setText(time);
+
         } else if (flag == 1) {
             endTime.setText(time);
+
         }
     }
-    public void getPicture() {
+    private void getPicture() {
         //Choose picture from Gallery
         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getIntent.setType("image/*");
@@ -149,10 +170,111 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
             selectedPicture = getImageFromPhone(imageUri);
             if (selectedPicture!=null) {
                 createPicture.setImageBitmap(selectedPicture);
+                btnDeleteImage.setEnabled(true);
+                btnDeleteImage.setVisibility(View.VISIBLE);
+                createPicture.setVisibility(View.VISIBLE);
             }
         } else {
             Toast.makeText(getActivity(), "You haven't picked Image", Toast.LENGTH_LONG).show();
         }
+    }
+    private void deletePicture() {
+        if (hasImage(createPicture)) {
+            //Delete image in "createPicture"
+           createPicture.setImageDrawable(null);
+            createPicture.setVisibility(View.GONE);
+            btnDeleteImage.setVisibility(View.GONE);
+        }
+    }
+    private void addTextListeners(){
+        //Clear error messages on text change of required fields
+        shopName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                shopName.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        startTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                startTime.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        endTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                endTime.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        shopAddress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                shopAddress.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        shopPostal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                shopPostal.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        shopDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                shopDescription.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
     private Bitmap getImageFromPhone(Uri imageUri) {
         Bitmap pic = null;
@@ -188,8 +310,11 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
         shopPostal.clearFocus();
         shopName.setText("");
         shopName.clearFocus();
-
+        shopDescription.setText("");
+        shopDescription.clearFocus();
         createPicture.setImageDrawable(null);
+        createPicture.setVisibility(View.GONE);
+        btnDeleteImage.setVisibility(View.GONE);
     }
 
     //Create shop
@@ -199,28 +324,20 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
         final String postal = shopPostal.getText().toString().trim();
        final String sTime = startTime.getText().toString().trim();
         final String eTime = endTime.getText().toString().trim();
+        final String description = shopDescription.getText().toString().trim();
 
-        // Check all required fields filled
-        if (TextUtils.isEmpty(shopTitle)) {
-            shopName.setError(REQUIRED);
+        //Check fields
+        Map<Object,String> controls = new HashMap<>();
+        controls.put(shopName,shopTitle);
+        controls.put(shopAddress,address);
+        controls.put(shopPostal,postal);
+        controls.put(startTime,sTime);
+        controls.put(endTime,eTime);
+        controls.put(shopDescription,description);
+        //if got error
+        if(validateFields(controls)){
             return;
-        }
-        if (TextUtils.isEmpty(address)) {
-            shopAddress.setError(REQUIRED);
-            return;
-        }
-        if (TextUtils.isEmpty(postal)) {
-            shopPostal.setError(REQUIRED);
-            return;
-        }
-        if (TextUtils.isEmpty(sTime)) {
-            startTime.setError(REQUIRED);
-            return;
-        }
-        if (TextUtils.isEmpty(eTime)) {
-            endTime.setError(REQUIRED);
-            return;
-        }
+        };
 
         // Set default image if no picture selected
         if (!hasImage(createPicture)) {
@@ -251,7 +368,7 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
                         } else {
                             // Create New Shop
                             Shop shop = new Shop(userId, shopTitle, shopImage,
-                                    address, postal, sTime, eTime, getContext());
+                                    address, postal, sTime, eTime,description, getContext());
 
                             createEntries(shop);
                             Toast.makeText(getActivity(),
@@ -276,6 +393,22 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
                 });
         // [END single_value_read]
     }
+    private boolean validateFields(Map<Object,String> controls){
+       boolean gotErrors = false;
+        // Check all required fields filled
+        Iterator it = controls.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            if (TextUtils.isEmpty(pair.getValue().toString())) {
+                ((TextView) pair.getKey()).setError(REQUIRED);
+                gotErrors=true;
+            }
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+        return gotErrors;
+    }
+
+
     private void setEditingEnabled(boolean enabled) {
         startTime.setEnabled(enabled);
         endTime.setEnabled(enabled);
