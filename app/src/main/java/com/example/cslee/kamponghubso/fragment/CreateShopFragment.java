@@ -545,13 +545,14 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
     }
     private void createEntries(Shop shop) {
         // Create shop at /shops/ and /user/shops simultaneously
-        String shopKey = mDatabase.child("shops").push().getKey();
+        String zone = shop.getShopZone();
+        String shopKey = mDatabase.child("shops").child(zone).push().getKey();
 
         //To create new shop. If need to update multiple places, have more entries in "ChildUpdates"
         Map<String, Object> shopValues = shop.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
 
-        childUpdates.put("/shops/"+ shopKey, shopValues);
+        childUpdates.put("/shops/"+zone+"/"+ shopKey, shopValues);
         childUpdates.put("/users/" + shop.getShopOwnerUid()+"/"+"shops/"+shopKey, shopValues);
 
         mDatabase.updateChildren(childUpdates);
