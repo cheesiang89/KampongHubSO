@@ -52,7 +52,10 @@ import java.util.Map;
 public class CreateShopFragment extends Fragment implements View.OnClickListener, TimePickerFragment.TimePickerDialogFragmentEvents {
     private TextView startTime;
     private TextView endTime;
-    private TextView shopAddress;
+    private TextView shopBlk;
+    private TextView shopUnit;
+    private TextView shopBuilding;
+    private TextView shopStreet;
     private TextView shopPostal;
     private TextView shopName;
     private TextView shopDescription;
@@ -89,7 +92,12 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.fragment_create_shop, container, false);
         startTime = (TextView) view.findViewById(R.id.startTime);
         endTime = (TextView) view.findViewById(R.id.endTime);
-        shopAddress = (EditText) view.findViewById(R.id.shopAddress);
+        shopBlk = (EditText) view.findViewById(R.id.shopBlk);
+        shopUnit = (EditText) view.findViewById(R.id.shopUnit);
+        shopBuilding = (EditText) view.findViewById(R.id.shopBuilding);
+        shopStreet = (EditText) view.findViewById(R.id.shopStreet);
+
+
         shopPostal = (EditText) view.findViewById(R.id.shopPostal);
         shopName = (EditText) view.findViewById(R.id.shopName);
         shopDescription=(EditText) view.findViewById(R.id.shopDescription);
@@ -238,13 +246,41 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
 
             }
         });
-        shopAddress.addTextChangedListener(new TextWatcher() {
+        shopBlk.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                shopAddress.setError(null);
+                shopBlk.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        shopUnit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                shopUnit.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        shopStreet.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                shopStreet.setError(null);
             }
 
             @Override
@@ -323,8 +359,14 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
         startTime.clearFocus();
         endTime.setText("");
         endTime.clearFocus();
-        shopAddress.setText("");
-        shopAddress.clearFocus();
+        shopBlk.setText("");
+        shopBlk.clearFocus();
+        shopUnit.setText("");
+        shopUnit.clearFocus();
+        shopBuilding.setText("");
+        shopBuilding.clearFocus();
+        shopStreet.setText("");
+        shopStreet.clearFocus();
         shopPostal.setText("");
         shopPostal.clearFocus();
         shopName.setText("");
@@ -341,8 +383,15 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
     //Create shop
     private void createShop() {
       final String shopTitle = shopName.getText().toString().trim();
-       final String address = shopAddress.getText().toString().trim();
+       final String blk = shopBlk.getText().toString().trim();
+        final String unit = shopUnit.getText().toString().trim();
+        final String building = shopBuilding.getText().toString().trim();
+        final String street = shopStreet.getText().toString().trim();
+
         final String postal = shopPostal.getText().toString().trim();
+        //Address is combination of 4 fields + Postal (for easy retrieval in User App
+        final String address = blk+","+unit+","+building+","+street+",S"+postal;
+
        final String sTime = startTime.getText().toString().trim();
         final String eTime = endTime.getText().toString().trim();
         final String description = shopDescription.getText().toString().trim();
@@ -350,11 +399,12 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
         //Check fields
         Map<Object,String> requiredControls = new HashMap<>();
         requiredControls.put(shopName,shopTitle);
-        requiredControls.put(shopAddress,address);
+        requiredControls.put(shopBlk,blk);
+        requiredControls.put(shopUnit,unit);
+        requiredControls.put(shopStreet,street);
         requiredControls.put(startTime,sTime);
         requiredControls.put(endTime,eTime);
-        requiredControls.put(shopDescription,description);
-        //Postal and phone need extra check
+         //Postal and phone need extra check
         requiredControls.put(shopPostal,postal);
         requiredControls.put(phoneNumber,phone);
         //if got error
@@ -457,14 +507,14 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
                 gotErrors=true;
             }
             //Extra check for Phonenumber and Postal (partial check: only 1st 2 digits valid, back 4 follows unknown logic)
-            if((pair.getKey()).equals(phoneNumber)){
+            if((pair.getKey()).equals(phoneNumber)&& !TextUtils.isEmpty(pair.getValue().toString())){
                 if(!Calculations.checkTelephoneValid(pair.getValue().toString())){
                     ((TextView) pair.getKey()).setError("Phone number invalid");
                     gotErrors=true;
                 }
             }
 
-            if((pair.getKey()).equals(shopPostal)){
+            if((pair.getKey()).equals(shopPostal)&& !TextUtils.isEmpty(pair.getValue().toString())){
                 if(!Calculations.checkPostalValid(pair.getValue().toString())){
                     ((TextView) pair.getKey()).setError("Postal Code invalid");
                     gotErrors=true;
@@ -479,7 +529,10 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
     private void setEditingEnabled(boolean enabled) {
         startTime.setEnabled(enabled);
         endTime.setEnabled(enabled);
-        shopAddress.setEnabled(enabled);
+        shopBlk.setEnabled(enabled);
+        shopUnit.setEnabled(enabled);
+        shopBuilding.setEnabled(enabled);
+        shopStreet.setEnabled(enabled);
         shopPostal.setEnabled(enabled);
         shopName.setEnabled(enabled);
 

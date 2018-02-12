@@ -104,32 +104,135 @@
             app:layout_constraintTop_toBottomOf="@+id/startTime" />
 
         <TextView
-            android:id="@+id/lblAddress"
+            android:id="@+id/lblBlk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
-            android:text="Address:"
+            android:text="Blk No.:"
             android:textAlignment="textStart"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblEnd" />
 
         <EditText
-            android:id="@+id/shopAddress"
+            android:id="@+id/shopBlk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
-            android:hint="Address"
+            android:hint="e.g. Blk 12"
             android:inputType="textCapCharacters|textPostalAddress"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/shopUnit" />
+
+        <TextView
+            android:id="@+id/lblUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:text="Unit no.:"
+            android:textAlignment="textStart"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblBlk" />
+
+        <EditText
+            android:id="@+id/shopUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:ems="10"
+            android:hint="e.g. #01-100"
+            android:inputType="textCapCharacters|textPostalAddress"
+            android:maxLength="10"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/endTime" />
+
+        <TextView
+            android:id="@+id/lblBuilding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:text="Building:"
+            android:textAlignment="textStart"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblUnit" />
+
+        <TextView
+            android:id="@+id/lblBuilding2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="(optional)"
+            android:textAlignment="textStart"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblBuilding" />
+
+        <EditText
+            android:id="@+id/shopBuilding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="e.g. ABC Building"
+            android:inputType="textCapCharacters|textPostalAddress"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/shopBlk" />
+
+        <TextView
+            android:id="@+id/lblStreet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:text="Street:"
+            android:textAlignment="textStart"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblBuilding2" />
+
+        <EditText
+            android:id="@+id/shopStreet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="e.g. Flower Road"
+            android:inputType="textCapCharacters|textPostalAddress"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/shopBuilding" />
 
         <TextView
             android:id="@+id/lblPostal"
@@ -143,21 +246,21 @@
             android:textAlignment="textStart"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/shopAddress" />
+            app:layout_constraintTop_toBottomOf="@+id/lblStreet" />
 
         <EditText
             android:id="@+id/shopPostal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Postal Code"
             android:inputType="number"
             android:maxLength="6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/shopAddress" />
+            app:layout_constraintTop_toBottomOf="@+id/shopStreet" />
 
         <TextView
             android:id="@+id/lblPhone"
@@ -178,7 +281,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Telephone"
             android:inputType="number"
@@ -227,9 +330,9 @@
             android:textAlignment="textStart"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintHorizontal_bias="0.177"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/shopDescription" />
+            app:layout_constraintTop_toBottomOf="@+id/lblUploadImage2" />
 
         <TextView
             android:id="@+id/lblUploadImage2"
@@ -238,11 +341,12 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="(optional)"
             android:textAlignment="textStart"
-            android:textSize="10sp"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblUploadImage" />
+            app:layout_constraintTop_toBottomOf="@+id/lblDescription" />
 
         <Button
             android:id="@+id/btnUploadImage"
@@ -250,7 +354,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:background="@drawable/ic_camera_alt_black_24dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -265,7 +369,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:background="@drawable/ic_delete_red_200_24dp"
             app:layout_constraintEnd_toEndOf="parent"
