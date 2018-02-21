@@ -100,10 +100,13 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
                 // of the iterator returned by dataSnapshot.getChildren() to
                 // initialize the array
                 final List<String> names = new ArrayList<String>();
+                final List<String> nameID = new ArrayList<String>();
 
-                for (DataSnapshot areaSnapshot: dataSnapshot.getChildren()) {
-                    String shopName = areaSnapshot.child("shopName").getValue(String.class);
+                for (DataSnapshot shopSnapshot: dataSnapshot.getChildren()) {
+                    String shopName = shopSnapshot.child("shopName").getValue(String.class);
+                    String shopID = shopSnapshot.getRef().getKey().toString();
                     names.add(shopName);
+                    nameID.add(shopID);
                 }
 
                 Spinner spinnerName = (Spinner) view.findViewById(R.id.spinnerName);
