@@ -9,13 +9,19 @@
         android:title="Search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always" />
-
+    //Create Ad
+    <item
+        android:id="@+id/menu_createAd"
+        android:icon="@drawable/ic_description_black_24dp"
+        android:orderInCategory="1000"
+        android:title="Create Ad"
+        app:showAsAction="never" />
 
        //Logout
     <item
         android:id="@+id/menu_logout"
         android:icon="@android:drawable/ic_menu_search"
-        android:orderInCategory="1000"
+        android:orderInCategory="10000"
         android:title="Logout"
         app:showAsAction="never" />
 </menu>

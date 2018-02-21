@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.cslee.kamponghubso.fragment.CreateAdFragment;
 import com.example.cslee.kamponghubso.fragment.ShopAdFragment;
 import com.example.cslee.kamponghubso.fragment.test.EditTestFragment;
 import com.example.cslee.kamponghubso.fragment.ShopListFragment;
@@ -44,7 +45,7 @@ public class NavigationActivity extends AppCompatActivity {
         {UserEmail = null;}
         else
         {UserEmail = extras.getString("email");}
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
        /* chatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +106,11 @@ public class NavigationActivity extends AppCompatActivity {
 
             case R.id.menu_search:
                 Toast.makeText(this,"Search",Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.menu_createAd:
+                fragment= new CreateAdFragment();
+                goFragment(fragment,R.id.screen_area);
                 return true;
 
             case R.id.menu_logout:

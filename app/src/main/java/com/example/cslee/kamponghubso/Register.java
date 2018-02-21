@@ -114,6 +114,8 @@ public class Register extends AppCompatActivity {
                         if(task.isSuccessful()){
                             String uid = firebaseAuth.getCurrentUser().getUid();
                             userDB.child(uid).setValue(userDetails);
+                            //Save Database ref in SharedPreference
+
                             Toast.makeText(Register.this,"Successfully registered",Toast.LENGTH_LONG).show();
                             Intent i = new Intent(Register.this, MainActivity.class);
                             startActivity(i);
