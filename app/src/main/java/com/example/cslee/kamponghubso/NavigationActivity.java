@@ -1,6 +1,7 @@
 package com.example.cslee.kamponghubso;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -38,6 +39,7 @@ public class NavigationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_navigation);
         //chatBtn = (ImageButton)(findViewById(R.id.chatButton));
        // mTextMessage = (TextView)findViewById(R.id.message);
