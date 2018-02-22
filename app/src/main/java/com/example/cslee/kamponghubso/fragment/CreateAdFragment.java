@@ -13,14 +13,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cslee.kamponghubso.NavigationActivity;
@@ -38,6 +43,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -47,16 +53,31 @@ import java.util.Map;
 public class CreateAdFragment extends Fragment implements View.OnClickListener {
 
 
-    private Button btnCreate;
+
     private Button btnUploadImage;
     private Button btnDeleteImage;
     private ImageView createPicture;
     private Bitmap selectedPicture;
-    public static final int PICK_IMAGE = 1;
+    private Spinner spinnerName;
+    private TextView lblShopNameRequired;
+    private TextView lblImageRequired;
+    private Button btnCreateAdvert;
 
+    public static final int PICK_IMAGE = 1;
     private static final String TAG = "CreateAd";
+    private static final String REQUIRED = "Required";
+
+    private boolean gotError = false;
+
+    final List<String> names = new ArrayList<String>();
+    final List<String> nameID = new ArrayList<String>();
+    private String chosenNameID="";
+    private String userId="";
+    private String shopZone="";
+
+
     private ProgressDialog dialog;
-    String userId;
+
     //Firebase ref
     private DatabaseReference mDatabase;
 
@@ -88,8 +109,28 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
         createPicture = (ImageView) view.findViewById(R.id.createPicture);
         createPicture.setVisibility(View.GONE);
 
-        btnCreate = (Button) view.findViewById(R.id.btnCreateShop);
-        btnCreate.setOnClickListener(this);
+        btnCreateAdvert = (Button) view.findViewById(R.id.btnCreateAdvert);
+        btnCreateAdvert.setOnClickListener(this);
+
+        //Create default empty value for spinner
+        names.add("");
+        nameID.add("");
+       spinnerName = (Spinner) view.findViewById(R.id.spinnerName);
+        spinnerName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                chosenNameID = nameID.get(pos);
+                //Reset "Required" error label
+                lblShopNameRequired.setVisibility(View.GONE);
+                gotError=false;
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        //For error message
+        lblShopNameRequired=(TextView)view.findViewById(R.id.lblShopNameRequired);
+        lblShopNameRequired.setVisibility(View.GONE);
+        lblImageRequired=(TextView)view.findViewById(R.id.lblImageRequired);
+        lblImageRequired.setVisibility(View.GONE);
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Create Ad");
 
@@ -99,17 +140,17 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
                 // Is better to use a List, because you don't know the size
                 // of the iterator returned by dataSnapshot.getChildren() to
                 // initialize the array
-                final List<String> names = new ArrayList<String>();
-                final List<String> nameID = new ArrayList<String>();
+
 
                 for (DataSnapshot shopSnapshot: dataSnapshot.getChildren()) {
                     String shopName = shopSnapshot.child("shopName").getValue(String.class);
                     String shopID = shopSnapshot.getRef().getKey().toString();
+                    shopZone=shopSnapshot.child("shopZone").getValue(String.class);
                     names.add(shopName);
                     nameID.add(shopID);
                 }
 
-                Spinner spinnerName = (Spinner) view.findViewById(R.id.spinnerName);
+
                 ArrayAdapter<String> nameAdapter = new ArrayAdapter<String>(getActivity(),
                         android.R.layout.simple_spinner_item, names);
                 nameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -130,11 +171,12 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
         int id = v.getId();
         if (id == R.id.btnUploadImage) {
             // Select picture and populate ImageView after
+
             getPicture();
         } else if (id == R.id.btnDeleteImage) {
             // Select picture and populate ImageView after
             deletePicture();
-        } else if (id == R.id.btnCreateShop) {
+        } else if (id == R.id.btnCreateAdvert) {
             // Create Shop
             createAd();
         }
@@ -142,11 +184,26 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
 
     private void createAd() {
         // Set default image if no picture selected
-        if (!hasImage(createPicture)) {
+      /*  if (!hasImage(createPicture)) {
             selectedPicture= BitmapFactory.decodeResource(getResources(), R.drawable.no_image);
 
+        }*/
+        //Ensure required fields filled
+        //1.ImageView
+        if (!hasImage(createPicture)) {
+            lblImageRequired.setVisibility(View.VISIBLE);
+            gotError=true;
         }
+        //2. Spinner
+        if (chosenNameID == null || chosenNameID.isEmpty()) {
+           lblShopNameRequired.setVisibility(View.VISIBLE);
+            gotError=true;
+        }
+        if(gotError) return;
+
         final String adImage = Calculations.bitmapToBase64(selectedPicture);
+
+
         // Disable "Create" button so only after all info gathered then Create Advert
         setEditingEnabled(false);
         dialog = new ProgressDialog(getActivity());
@@ -168,8 +225,11 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
                 } else {
                     // Create New Shop
                     try {
+                        //Create advert
                         Advert advert = new Advert();
                         advert.setAdImage(adImage);
+                        advert.setShopId(chosenNameID);
+
                         createEntries(advert);
                              /*   Toast.makeText(getActivity(),
                                         "Shop Created",
@@ -182,7 +242,6 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
                         Fragment newFragment= new ShopAdFragment();
                         ((NavigationActivity)getActivity()).goFragment(newFragment,R.id.screen_area);
                     } catch(Exception ex){
-                        //Check postal code validity here only
                         Log.e(TAG, "on Create Shop: "+ex.getMessage() );
                         if (dialog != null && dialog.isShowing()) {
                             dialog.dismiss();
@@ -232,6 +291,9 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
                 btnDeleteImage.setEnabled(true);
                 btnDeleteImage.setVisibility(View.VISIBLE);
                 createPicture.setVisibility(View.VISIBLE);
+                //Reset "Required" error label
+                lblImageRequired.setVisibility(View.GONE);
+                gotError=false;
             }
         } else {
             Toast.makeText(getActivity(), "You haven't picked Image", Toast.LENGTH_LONG).show();
@@ -269,26 +331,33 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
 
         createPicture.setEnabled(enabled);
         if (enabled) {
-            btnCreate.setVisibility(View.VISIBLE);
+            btnCreateAdvert.setVisibility(View.VISIBLE);
         } else {
-            btnCreate.setVisibility(View.GONE);
+            btnCreateAdvert.setVisibility(View.GONE);
         }
     }
+
     private void createEntries(Advert advert) {
         // Create advert at:
-        // 1. /ads/adID (user will retrieve ads after seeing shop details (i.e. get shopID)
-        // 2. /user/userID/ads/adID
-        // 3. /shops/shopID--adID (have a ref to the ad) simultaneously
-        /*String zone = shop.getShopZone();
-        String adKey = mDatabase.child("ads").push().getKey();
+        // 1./user/userID/ads/adID (for shopOwner)
+        // 2. /user/userID/shops/shopID/adID (for consistency)
+        // 3. /shops/shopID/ads--adID (user will retrieve ads after seeing shop details (i.e. get shopID)) simultaneously
+       if(chosenNameID!=null && !chosenNameID.isEmpty()) {
+           if (userId!=null && !userId.isEmpty()) {
+               if(shopZone!=null && !shopZone.isEmpty()) {
+                   String adKey = mDatabase.child("ads").push().getKey();
 
-        //To create new shop. If need to update multiple places, have more entries in "ChildUpdates"
-        Map<String, Object> shopValues = shop.toMap();
-        Map<String, Object> childUpdates = new HashMap<>();
+                   //To create new advert. If need to update multiple places, have more entries in "ChildUpdates"
+                   Map<String, Object> advertValues = advert.toMap();
+                   Map<String, Object> childUpdates = new HashMap<>();
 
-        childUpdates.put("/shops/"+zone+"/"+ shopKey, shopValues);
-        childUpdates.put("/users/" + shop.getShopOwnerUid()+"/"+"shops/"+shopKey, shopValues);
+                   childUpdates.put("/users/" + userId + "/" + "ads/" + adKey, advertValues);
+                   childUpdates.put("/users/" + userId + "/" + "shops/" + chosenNameID + "/" + "ads/" + adKey, advertValues);
+                   childUpdates.put("/shops/" +shopZone+"/"+ chosenNameID + "/" + "ads/" + adKey, advertValues);
 
-        mDatabase.updateChildren(childUpdates);*/
+                   mDatabase.updateChildren(childUpdates);
+               }
+           }
+       }
     }
 }

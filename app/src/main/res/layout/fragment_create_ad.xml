@@ -7,53 +7,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context="com.example.cslee.kamponghubso.fragment.CreateAdFragment">
 
-        <Button
-            android:id="@+id/btnUploadImage"
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_weight="1"
-            android:background="@drawable/ic_camera_alt_black_24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btnDeleteImage"
-            android:layout_width="49dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_weight="1"
-            android:background="@drawable/ic_delete_red_200_24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/createPicture"
-            android:layout_width="200dp"
-            android:layout_height="150dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:layout_weight="3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnUploadImage" />
-
-        <Button
-            android:id="@+id/btnCreateShop"
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/ic_check_circle_green_500_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerName" />
-
         <Spinner
             android:id="@+id/spinnerName"
             android:layout_width="368dp"
@@ -67,6 +20,17 @@
             app:layout_constraintTop_toBottomOf="@+id/lblShopName" />
 
         <TextView
+            android:id="@+id/lblShopNameRequired"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:text="Required"
+            android:textColor="@android:color/holo_red_light"
+            app:layout_constraintStart_toEndOf="@+id/lblShopName"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/lblShopName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,8 +38,64 @@
             android:layout_marginTop="8dp"
             android:text="Shop Name"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/createPicture" />
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/btnDeleteImage"
+            android:layout_width="49dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/ic_delete_red_200_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerName" />
+
+        <ImageView
+            android:id="@+id/createPicture"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_weight="3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnUploadImage" />
+
+        <TextView
+            android:id="@+id/lblImageRequired"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_marginStart="32dp"
+            android:text="Required"
+            android:textColor="@android:color/holo_red_light"
+            app:layout_constraintStart_toEndOf="@+id/btnUploadImage"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerName" />
+
+        <Button
+            android:id="@+id/btnUploadImage"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/ic_camera_alt_black_24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerName" />
+
+        <Button
+            android:id="@+id/btnCreateAdvert"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/ic_check_circle_green_500_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/createPicture" />
 
     </android.support.constraint.ConstraintLayout>
 
