@@ -21,13 +21,13 @@ import com.google.firebase.database.DatabaseReference;
  * Created by CSLee on 8/1/2018.
  */
 
-public class MyAdapter extends FirebaseRecyclerAdapter<Shop, ShopListHolder> {
+public class AdapterShopList extends FirebaseRecyclerAdapter<Shop, ShopListHolder> {
    private Fragment fragment;
 
-    public MyAdapter(@NonNull FirebaseRecyclerOptions<Shop> options) {
+    public AdapterShopList(@NonNull FirebaseRecyclerOptions<Shop> options) {
         super(options);
     }
-    public MyAdapter(@NonNull FirebaseRecyclerOptions<Shop> options, Fragment fragment) {
+    public AdapterShopList(@NonNull FirebaseRecyclerOptions<Shop> options, Fragment fragment) {
         super(options);
         this.fragment=fragment;
          }

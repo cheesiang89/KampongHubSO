@@ -14,11 +14,11 @@ public class Advert {
 
     //This is Base64 string to allow user to upload own image
     private String adImage;
-
     private String shopId;
-
-
     private String shopName;
+    private String adDate;
+    private String adDescription;
+
     public Advert() {
         // Default constructor required for calls to DataSnapshot.getValue(Comment.class)
     }
@@ -44,12 +44,29 @@ public class Advert {
     public void setShopName(String shopName) {
         this.shopName = shopName;
     }
+    public String getAdDate() {
+        return adDate;
+    }
+
+    public void setAdDate(String adDate) {
+        this.adDate = adDate;
+    }
+
+    public String getAdDescription() {
+        return adDescription;
+    }
+
+    public void setAdDescription(String adDescription) {
+        this.adDescription = adDescription;
+    }
     @Exclude
     public Map<String, Object> toMap() {
         Map<String, Object> result = new HashMap<>();
         result.put("adImage", adImage);
         result.put("shopId", shopId);
         result.put("shopName", shopName);
+        result.put("adDescription", adDescription);
+        result.put("adDate", adDate);
        return result;
     }
 

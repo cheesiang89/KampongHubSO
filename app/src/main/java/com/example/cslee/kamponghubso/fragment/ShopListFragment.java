@@ -13,12 +13,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.SearchView;
 
-import com.example.cslee.kamponghubso.NavigationActivity;
 import com.example.cslee.kamponghubso.R;
-import com.example.cslee.kamponghubso.adapter.MyAdapter;
+import com.example.cslee.kamponghubso.adapter.AdapterShopList;
 import com.example.cslee.kamponghubso.models.Shop;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +36,7 @@ public class ShopListFragment extends Fragment {
     //Layout
     private RecyclerView rvShopList;
     private LinearLayoutManager layoutManager;
-    private MyAdapter mFirebaseAdapter;
+    private AdapterShopList mFirebaseAdapter;
     private ProgressDialog dialog;
     private SearchView mSearchView;
 
@@ -90,7 +88,7 @@ public class ShopListFragment extends Fragment {
                 .build();
 
         //Configure adapter
-        mFirebaseAdapter = new MyAdapter(options,this) {
+        mFirebaseAdapter = new AdapterShopList(options,this) {
             @Override
             public void onDataChanged() {
                 super.onDataChanged();

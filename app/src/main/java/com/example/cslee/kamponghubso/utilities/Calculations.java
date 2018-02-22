@@ -305,27 +305,32 @@ public class Calculations {
 
     public static LatLng getLatLngFromPostal(Context context, String postalCode){
         Geocoder coder = new Geocoder(context);
-        List<Address> address;
+        List<Address> listAddress=null;
         LatLng p1 = null;
+        int maxTries =100;
+        for (int i =0;i<maxTries;i++) {
+            try {
+                // May throw an IOException
+                listAddress = coder.getFromLocationName(postalCode, 5);
+                if(listAddress.size()>0) {
+                    Address location = listAddress.get(0);
+                    location.getLatitude();
+                    location.getLongitude();
 
-        try {
-            // May throw an IOException
-            address = coder.getFromLocationName(postalCode, 5);
-            if (address == null) {
-                return null;
+                    p1 = new LatLng(location.getLatitude(), location.getLongitude());
+                    break;
+                }
+
+            } catch (IOException ex) {
+
+                ex.printStackTrace();
             }
-            Address location = address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-
-            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
-
-        } catch (IOException ex) {
-
-            ex.printStackTrace();
         }
+        if (listAddress == null) {
+            return null;
+        }
+            return p1;
 
-        return p1;
     }
     public static boolean checkPostalValid(String postalCode){
       boolean valid = false;

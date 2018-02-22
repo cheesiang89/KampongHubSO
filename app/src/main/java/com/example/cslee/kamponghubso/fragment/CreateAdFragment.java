@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,10 +43,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +65,7 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
     private TextView lblShopNameRequired;
     private TextView lblImageRequired;
     private Button btnCreateAdvert;
+    private TextView adDescription;
 
     public static final int PICK_IMAGE = 1;
     private static final String TAG = "CreateAd";
@@ -69,8 +73,8 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
 
     private boolean gotError = false;
 
-    final List<String> names = new ArrayList<String>();
-    final List<String> nameID = new ArrayList<String>();
+    private List<String> names;
+    private List<String> nameID ;
     private String chosenNameID="";
     private String chosenName="";
     private String userId="";
@@ -99,6 +103,8 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_create_ad, container, false);
+        //For description
+        adDescription=(EditText) view.findViewById(R.id.adDescription);
         //For image
         btnUploadImage = (Button) view.findViewById(R.id.btnUploadImage);
         btnUploadImage.setOnClickListener(this);
@@ -114,6 +120,8 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
         btnCreateAdvert.setOnClickListener(this);
 
         //Create default empty value for spinner
+         names= new ArrayList<String>();
+        nameID = new ArrayList<String>();
         names.add("");
         nameID.add("");
        spinnerName = (Spinner) view.findViewById(R.id.spinnerName);
@@ -227,11 +235,15 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
                 } else {
                     // Create New Shop
                     try {
+                        Date currentTime = Calendar.getInstance().getTime();
+                        final String adDesc = adDescription.getText().toString().trim();
                         //Create advert
                         Advert advert = new Advert();
                         advert.setAdImage(adImage);
                         advert.setShopId(chosenNameID);
                         advert.setShopName(chosenName);
+                        advert.setAdDate(currentTime.toString());
+                        advert.setAdDescription(adDesc);
                         createEntries(advert);
                              /*   Toast.makeText(getActivity(),
                                         "Shop Created",
@@ -331,7 +343,6 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
     }
     private void setEditingEnabled(boolean enabled) {
 
-        createPicture.setEnabled(enabled);
         if (enabled) {
             btnCreateAdvert.setVisibility(View.VISIBLE);
         } else {
