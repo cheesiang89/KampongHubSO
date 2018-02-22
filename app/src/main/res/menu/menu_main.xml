@@ -9,11 +9,18 @@
         android:title="Search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always" />
+    //Create Shop
+    <item
+        android:id="@+id/menu_createShop"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:orderInCategory="1000"
+        android:title="Create Shop"
+        app:showAsAction="never" />
     //Create Ad
     <item
         android:id="@+id/menu_createAd"
         android:icon="@drawable/ic_description_black_24dp"
-        android:orderInCategory="1000"
+        android:orderInCategory="2000"
         android:title="Create Ad"
         app:showAsAction="never" />
 

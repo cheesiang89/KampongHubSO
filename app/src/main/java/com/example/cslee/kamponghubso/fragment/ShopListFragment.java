@@ -41,7 +41,7 @@ public class ShopListFragment extends Fragment {
     private MyAdapter mFirebaseAdapter;
     private ProgressDialog dialog;
     private SearchView mSearchView;
-    private Button addShop;
+
 
     //Firebase variables
     private DatabaseReference mDatabase;
@@ -59,16 +59,7 @@ public class ShopListFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_shop_list, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("My Shops");
-        addShop=rootView.findViewById(R.id.addShop);
-        addShop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment= new CreateShopFragment();
-                ((NavigationActivity)getActivity()).goFragment(fragment,R.id.screen_area);
-               // getActivity().getSupportActionBar().setTitle("Shop Details");
-            }
-        });
-        // [START create_database_reference]
+         // [START create_database_reference]
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END create_database_reference]
 

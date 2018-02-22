@@ -17,6 +17,8 @@ public class Advert {
 
     private String shopId;
 
+
+    private String shopName;
     public Advert() {
         // Default constructor required for calls to DataSnapshot.getValue(Comment.class)
     }
@@ -34,11 +36,20 @@ public class Advert {
     public void setShopId(String shopId) {
         this.shopId = shopId;
     }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
     @Exclude
     public Map<String, Object> toMap() {
         Map<String, Object> result = new HashMap<>();
         result.put("adImage", adImage);
         result.put("shopId", shopId);
+        result.put("shopName", shopName);
        return result;
     }
 

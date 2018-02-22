@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.cslee.kamponghubso.fragment.CreateAdFragment;
+import com.example.cslee.kamponghubso.fragment.CreateShopFragment;
 import com.example.cslee.kamponghubso.fragment.ShopAdFragment;
 import com.example.cslee.kamponghubso.fragment.test.EditTestFragment;
 import com.example.cslee.kamponghubso.fragment.ShopListFragment;
@@ -106,6 +107,11 @@ public class NavigationActivity extends AppCompatActivity {
 
             case R.id.menu_search:
                 Toast.makeText(this,"Search",Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.menu_createShop:
+                fragment= new CreateShopFragment();
+                goFragment(fragment,R.id.screen_area);
                 return true;
 
             case R.id.menu_createAd:

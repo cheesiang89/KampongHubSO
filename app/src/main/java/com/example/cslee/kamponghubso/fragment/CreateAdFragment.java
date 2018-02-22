@@ -72,6 +72,7 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
     final List<String> names = new ArrayList<String>();
     final List<String> nameID = new ArrayList<String>();
     private String chosenNameID="";
+    private String chosenName="";
     private String userId="";
     private String shopZone="";
 
@@ -119,6 +120,7 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
         spinnerName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 chosenNameID = nameID.get(pos);
+                chosenName=spinnerName.getSelectedItem().toString();
                 //Reset "Required" error label
                 lblShopNameRequired.setVisibility(View.GONE);
                 gotError=false;
@@ -229,7 +231,7 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
                         Advert advert = new Advert();
                         advert.setAdImage(adImage);
                         advert.setShopId(chosenNameID);
-
+                        advert.setShopName(chosenName);
                         createEntries(advert);
                              /*   Toast.makeText(getActivity(),
                                         "Shop Created",
