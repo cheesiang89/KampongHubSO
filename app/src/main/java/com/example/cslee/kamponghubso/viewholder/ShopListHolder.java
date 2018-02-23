@@ -30,6 +30,7 @@ public class ShopListHolder extends RecyclerView.ViewHolder{
         super(itemView);
         shopImage = (ImageView)itemView.findViewById(R.id.shopImage);
         shopName = (TextView)itemView.findViewById(R.id.shopName);
+        shopName.setSelected(true);
         shopIsOpen = (TextView)itemView.findViewById(R.id.isShopOpen);
         shopTime = (TextView)itemView.findViewById(R.id.shopTime);
         shopDistance = (TextView)itemView.findViewById(R.id.shopDistance);
@@ -51,7 +52,7 @@ public class ShopListHolder extends RecyclerView.ViewHolder{
     public void setImage(String shopImageString)
     {
         //Get Bitmap from base64
-        Bitmap bitmap = Calculations.base64ToBitmap(shopImageString);
+        Bitmap bitmap = Calculations.base64ToBitmap(shopImageString,1000,600);
         shopImage.setImageBitmap(bitmap);
 
 /*        //OLD CODE

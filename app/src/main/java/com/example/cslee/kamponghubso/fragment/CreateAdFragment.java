@@ -42,6 +42,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -235,14 +238,14 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
                 } else {
                     // Create New Shop
                     try {
-                        Date currentTime = Calendar.getInstance().getTime();
+                        String timeStamp = new SimpleDateFormat("dd-MMM-yyyy,HH:mm:ss").format(Calendar.getInstance().getTime());
                         final String adDesc = adDescription.getText().toString().trim();
                         //Create advert
                         Advert advert = new Advert();
                         advert.setAdImage(adImage);
                         advert.setShopId(chosenNameID);
                         advert.setShopName(chosenName);
-                        advert.setAdDate(currentTime.toString());
+                        advert.setAdDate(timeStamp.toString());
                         advert.setAdDescription(adDesc);
                         createEntries(advert);
                              /*   Toast.makeText(getActivity(),

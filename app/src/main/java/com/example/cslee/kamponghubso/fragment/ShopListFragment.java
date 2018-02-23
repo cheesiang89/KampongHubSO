@@ -123,6 +123,7 @@ public class ShopListFragment extends Fragment {
             mFirebaseAdapter.stopListening();
         }
     }
+
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }

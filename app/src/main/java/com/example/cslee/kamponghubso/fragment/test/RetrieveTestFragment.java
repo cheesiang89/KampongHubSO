@@ -108,7 +108,7 @@ public class RetrieveTestFragment extends Fragment {
                 String name = custShop.get("shopName");
                 String picture= custShop.get("shopImage");
                 shopName.setText(name);
-                Bitmap b =Calculations.base64ToBitmap(picture);
+                Bitmap b =Calculations.base64ToBitmap(picture,1000,600);
                 shopPicture.setImageBitmap(b);
                 if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();
@@ -142,7 +142,7 @@ public class RetrieveTestFragment extends Fragment {
             Map singleShop = (Map) shop.getValue();
             if (i == 0) {
                 shopName.setText((String) singleShop.get("shopName"));
-                Bitmap b = Calculations.base64ToBitmap((String) singleShop.get("shopImage"));
+                Bitmap b = Calculations.base64ToBitmap((String) singleShop.get("shopImage"),1000,600);
                 shopPicture.setImageBitmap(b);
             } else
                 a = (String) singleShop.get("shopName");
