@@ -5,12 +5,12 @@ import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,13 +19,13 @@ import com.example.cslee.kamponghubso.NavigationActivity;
 import com.example.cslee.kamponghubso.R;
 import com.example.cslee.kamponghubso.models.Advert;
 import com.example.cslee.kamponghubso.utilities.Calculations;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.time.LocalDateTime;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,8 +39,7 @@ public class ShopAdDetailFragment extends Fragment {
     private TextView shopName;
     private ImageView adImage;
     private TextView adDesc;
-
-    private Fragment fragment;
+    private Bitmap bitmap;
     private ProgressDialog dialog;
 
 
@@ -88,6 +87,30 @@ public class ShopAdDetailFragment extends Fragment {
         shopName.setSelected(true);
         adDesc = view.findViewById(R.id.adDesc);
 
+        //Go new fragment to zoom ImageView
+        adImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+        // Launch PictureFragment (use external library for image zoom)
+                Fragment newFragment = new PictureFragment();
+                //Convert bitmap to base64 string to store in Bundle
+                String base64String = Calculations.bitmapToBase64(bitmap, 100);
+                Bundle bundle = new Bundle();
+                bundle.putString(PictureFragment.PICTURE_KEY, base64String);
+                newFragment.setArguments(bundle);
+                ((NavigationActivity) getActivity()).goFragment(newFragment, R.id.screen_area);
+
+    /*//Use external library for image zoom
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+                View mView = getLayoutInflater().inflate(R.layout.fragment_picture, null);
+                PhotoView photoView = mView.findViewById(R.id.adImageView);
+               photoView.setImageBitmap(bitmap);
+                mBuilder.setView(mView);
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+                mDialog.getWindow().setLayout(1000, 1000);*/
+            }
+        });
 
         //Get data
         // Attach a listener to read the data at ads reference
@@ -97,10 +120,10 @@ public class ShopAdDetailFragment extends Fragment {
                 advert = dataSnapshot.getValue(Advert.class);
                 String base64String = advert.getAdImage();
                 try {
-                    Bitmap b = Calculations.base64ToBitmap(base64String, 1000, 1000);
-                    adImage.setImageBitmap(b);
-                }catch(Exception e) {
-                    Log.e(TAG,"Error: "+e.getMessage());
+                    bitmap = Calculations.base64ToBitmap(base64String, 1000, 600);
+                    adImage.setImageBitmap(bitmap);
+                } catch (Exception e) {
+                    Log.e(TAG, "Error: " + e.getMessage());
                 }
                 shopName.setText(advert.getShopName());
                 adDesc.setText(advert.getAdDescription());
@@ -123,4 +146,9 @@ public class ShopAdDetailFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        adImage.setImageResource(android.R.color.transparent);
+    }
 }

@@ -139,7 +139,7 @@ public class CreateTestFragment extends Fragment{
     }
     private void createShop() {
         final String shopTitle = createName.getText().toString().trim();
-        final String shopImage = Calculations.bitmapToBase64(selectedPicture);
+        final String shopImage = Calculations.bitmapToBase64(selectedPicture,50);
 
         // Title is required
         if (TextUtils.isEmpty(shopTitle)) {

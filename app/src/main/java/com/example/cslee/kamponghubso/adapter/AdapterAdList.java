@@ -50,7 +50,7 @@ public class AdapterAdList extends FirebaseRecyclerAdapter<Advert, AdListHolder>
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Launch ShopDetailActivity
+                // Launch ShopDetailFragment
                 Fragment newFragment= new ShopAdDetailFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(ShopAdDetailFragment.SHOP_AD_KEY, adKey);

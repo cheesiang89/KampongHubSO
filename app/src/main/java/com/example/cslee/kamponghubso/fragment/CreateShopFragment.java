@@ -417,7 +417,7 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
             selectedPicture= BitmapFactory.decodeResource(getResources(), R.drawable.no_image);
 
         }
-        final String shopImage = Calculations.bitmapToBase64(selectedPicture);
+        final String shopImage = Calculations.bitmapToBase64(selectedPicture,50);
 
         // Disable "Create" button so only after all info gathered then Create Shop
         setEditingEnabled(false);

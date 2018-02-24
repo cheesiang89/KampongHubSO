@@ -36,9 +36,9 @@ public class Calculations {
         return("1km");
     }
 
-    public static String bitmapToBase64(Bitmap bitmap){
+    public static String bitmapToBase64(Bitmap bitmap, int quality){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream .toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }

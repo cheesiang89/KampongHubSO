@@ -214,7 +214,7 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
         }
         if(gotError) return;
 
-        final String adImage = Calculations.bitmapToBase64(selectedPicture);
+        final String adImage = Calculations.bitmapToBase64(selectedPicture,50);
 
 
         // Disable "Create" button so only after all info gathered then Create Advert
