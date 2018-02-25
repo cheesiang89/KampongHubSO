@@ -349,7 +349,7 @@ public class Calculations {
 
             try {
                 // May throw an IOException
-                listAddress = coder.getFromLocationName(postalCode, 5);
+                listAddress = coder.getFromLocationName(postalCode+"Singapore", 5);
                 if(listAddress.size()>0) {
                     Address location = listAddress.get(0);
                     location.getLatitude();
