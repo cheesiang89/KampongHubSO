@@ -222,6 +222,7 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
         dialog = new ProgressDialog(getActivity());
         dialog.setMessage("Saving Advert...");
         dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
         mDatabase.child("users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

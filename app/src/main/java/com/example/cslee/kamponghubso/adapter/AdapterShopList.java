@@ -48,11 +48,11 @@ public class AdapterShopList extends FirebaseRecyclerAdapter<Shop, ShopListHolde
             @Override
             public void onClick(View v) {
                 // Launch ShopDetailActivity
-                Fragment newFragment= new EditShopFragment();
+              /*  Fragment newFragment= new EditShopFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(EditShopFragment.SHOP_DETAIL_KEY, shopKey);
                 newFragment.setArguments(bundle);
-                ((NavigationActivity)fragment.getActivity()).goFragment(newFragment,R.id.screen_area);
+                ((NavigationActivity)fragment.getActivity()).goFragment(newFragment,R.id.screen_area);*/
             }
         });
         viewHolder.bindToList(model,new View.OnClickListener(){

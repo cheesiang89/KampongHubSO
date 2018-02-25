@@ -65,7 +65,7 @@ public class ShopAdDetailFragment extends Fragment {
         dialog = new ProgressDialog(getActivity());
         dialog.setMessage("Loading data.");
         dialog.show();
-
+        dialog.setCanceledOnTouchOutside(false);
         // Get ad key from intent
         Bundle bundle = this.getArguments();
         if (bundle != null) {

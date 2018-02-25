@@ -424,6 +424,7 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
         dialog = new ProgressDialog(getActivity());
         dialog.setMessage("Creating shop...");
         dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
        /* Toast.makeText(getActivity(), "Creating Shop...", Toast.LENGTH_SHORT).show();*/
         // [START single_value_read]
         final String userId = ((NavigationActivity)getActivity()).getUid();
