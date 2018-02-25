@@ -247,6 +247,7 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
                         advert.setShopName(chosenName);
                         advert.setAdDate(timeStamp.toString());
                         advert.setAdDescription(adDesc);
+                        advert.setShopZone(shopZone);
                         createEntries(advert);
                              /*   Toast.makeText(getActivity(),
                                         "Shop Created",
