@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     private EditText emailText, passwordText;
     private Button loginBtn, registerBtn;
+    private String email, password;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
 
@@ -75,11 +76,15 @@ public class MainActivity extends AppCompatActivity {
 
     //method to login user using email and password
     protected void loginRequest() {
-        // final String email = emailText.getText().toString().trim();
-        //String password  = passwordText.getText().toString().trim();
-        //For Test
-        final String email = "lee@example.com";
-        String password ="password";
+        email = emailText.getText().toString().trim();
+        password  = passwordText.getText().toString().trim();
+        //For test
+        if(TextUtils.isEmpty(email) && (TextUtils.isEmpty(password)))
+        {
+            email = "lee@example.com";
+            password ="password";
+        }
+
         if(TextUtils.isEmpty(email)){
             Toast.makeText(this,"Please enter a valid email address",Toast.LENGTH_LONG).show();
             return;
@@ -91,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         }
         progressDialog.setMessage("Hold on...");
         progressDialog.show();
-
+        progressDialog.setCanceledOnTouchOutside(false);
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

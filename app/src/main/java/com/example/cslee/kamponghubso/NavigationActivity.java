@@ -15,8 +15,7 @@ import android.widget.Toast;
 
 import com.example.cslee.kamponghubso.fragment.CreateAdFragment;
 import com.example.cslee.kamponghubso.fragment.CreateShopFragment;
-import com.example.cslee.kamponghubso.fragment.ShopAdFragment;
-import com.example.cslee.kamponghubso.fragment.test.EditTestFragment;
+import com.example.cslee.kamponghubso.fragment.MyAdFragment;
 import com.example.cslee.kamponghubso.fragment.ShopListFragment;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -24,7 +23,6 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -62,11 +60,11 @@ public class NavigationActivity extends AppCompatActivity {
         });*/
 
         //Populate Content Area with Fragment
-    /*    fragment = new ShopListingFragment();
+        fragment = new ShopListFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.screen_area,fragment);
-        fragmentTransaction.commit();*/
+        fragmentTransaction.commit();
         getSupportActionBar().setTitle("Main");
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -157,7 +155,7 @@ public class NavigationActivity extends AppCompatActivity {
                 case R.id.navigation_advert:
                    // mTextMessage.setText(R.string.title_bookmark);
                     Toast.makeText(NavigationActivity.this, "My Ads", Toast.LENGTH_SHORT).show();
-                   fragment = new ShopAdFragment();
+                   fragment = new MyAdFragment();
                     goFragment(fragment,R.id.screen_area);
                     return true;
 

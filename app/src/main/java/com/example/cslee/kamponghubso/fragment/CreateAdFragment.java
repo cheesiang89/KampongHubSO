@@ -13,9 +13,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +29,6 @@ import android.widget.Toast;
 import com.example.cslee.kamponghubso.NavigationActivity;
 import com.example.cslee.kamponghubso.R;
 import com.example.cslee.kamponghubso.models.Advert;
-import com.example.cslee.kamponghubso.models.Shop;
 import com.example.cslee.kamponghubso.models.User;
 import com.example.cslee.kamponghubso.utilities.Calculations;
 import com.google.firebase.database.DataSnapshot;
@@ -43,12 +39,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Calendar;
@@ -258,7 +250,7 @@ public class CreateAdFragment extends Fragment implements View.OnClickListener {
                         }
 
                         // Go back Listing of Ads
-                        Fragment newFragment= new ShopAdFragment();
+                        Fragment newFragment= new MyAdFragment();
                         ((NavigationActivity)getActivity()).goFragment(newFragment,R.id.screen_area);
                     } catch(Exception ex){
                         Log.e(TAG, "on Create Shop: "+ex.getMessage() );

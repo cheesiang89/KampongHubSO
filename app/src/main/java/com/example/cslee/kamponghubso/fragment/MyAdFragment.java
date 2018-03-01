@@ -23,14 +23,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 /**
- * This is slightly different from ShopOwner ad: Will List ads given ShopID, ShopZone
+ * A simple {@link Fragment} subclass.
  */
-public class ShopAdFragment extends Fragment {
+public class MyAdFragment extends Fragment {
 
     //This constant is for easy referencing for Log purposes
-    private static final String TAG = ShopAdFragment.class.getSimpleName();
-    public static final String SHOP_KEY = "shop_ad_key";
-    public static final String ZONE_KEY = "zone_key";
+    private static final String TAG = MyAdFragment.class.getSimpleName();
 
     //Layout
     private RecyclerView rvAdList;
@@ -40,12 +38,10 @@ public class ShopAdFragment extends Fragment {
 
     //Firebase variables
     private DatabaseReference mDatabase;
-    private String mShopKey;
-    private String mZoneKey;
 
     //Model
     Shop shop;
-    public ShopAdFragment() {
+    public MyAdFragment() {
         // Required empty public constructor
     }
 
@@ -56,7 +52,7 @@ public class ShopAdFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View rootView = inflater.inflate(R.layout.fragment_shop_ad, container, false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Shop Ads");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("My Ads");
         // [START create_database_reference]
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END create_database_reference]
@@ -67,19 +63,6 @@ public class ShopAdFragment extends Fragment {
         dialog.setMessage("Loading data.");
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
-        // Get ad key from intent
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            mShopKey = bundle.getString(SHOP_KEY, null);
-            if (mShopKey == null) {
-                throw new IllegalArgumentException("Must pass SHOP_KEY");
-            }
-            mZoneKey = bundle.getString(ZONE_KEY, null);
-            if (mZoneKey == null) {
-                throw new IllegalArgumentException("Must pass ZONE_KEY");
-            }
-
-        }
         return rootView;
     }
 
@@ -140,10 +123,10 @@ public class ShopAdFragment extends Fragment {
         // Last 100 posts, these are automatically the 100 most recent
         // due to sorting by push() keys
         final String userId = ((NavigationActivity)getActivity()).getUid();
-        Query adQuery = databaseReference.child("shops").child(mZoneKey).child(mShopKey).child("ads")
+        Query recentStoreQuery = databaseReference.child("users").child(userId).child("ads")
                 .limitToFirst(100);
         // [END recent_store_query]
 
-        return adQuery;
+        return recentStoreQuery;
     }
 }

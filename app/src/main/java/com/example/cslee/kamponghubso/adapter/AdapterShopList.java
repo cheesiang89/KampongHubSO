@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.cslee.kamponghubso.NavigationActivity;
 import com.example.cslee.kamponghubso.R;
 import com.example.cslee.kamponghubso.fragment.EditShopFragment;
+import com.example.cslee.kamponghubso.fragment.ShopDetailFragment;
 import com.example.cslee.kamponghubso.models.Shop;
 import com.example.cslee.kamponghubso.viewholder.ShopListHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -39,20 +40,23 @@ public class AdapterShopList extends FirebaseRecyclerAdapter<Shop, ShopListHolde
 
     @Override
     protected void onBindViewHolder(ShopListHolder viewHolder, int position, final Shop model) {
-        //TODO: Method to be added later: To show store details
+
         final DatabaseReference shopRef = getRef(position);
 
         // Set click listener for the shop view
         final String shopKey = shopRef.getKey();
+        final String shopZone = model.getShopZone();
+
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Launch ShopDetailActivity
-              /*  Fragment newFragment= new EditShopFragment();
+                Fragment newFragment= new ShopDetailFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString(EditShopFragment.SHOP_DETAIL_KEY, shopKey);
+                bundle.putString(ShopDetailFragment.SHOP_DETAIL_KEY, shopKey);
+                bundle.putString(ShopDetailFragment.SHOP_ZONE_KEY, shopZone);
                 newFragment.setArguments(bundle);
-                ((NavigationActivity)fragment.getActivity()).goFragment(newFragment,R.id.screen_area);*/
+                ((NavigationActivity)fragment.getActivity()).goFragment(newFragment,R.id.screen_area);
             }
         });
         viewHolder.bindToList(model,new View.OnClickListener(){
