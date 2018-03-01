@@ -305,7 +305,9 @@ public class ShopDetailFragment extends Fragment implements LocationListener {
 
     public void goChildFragment(Fragment fragment, int toReplace){
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(toReplace, fragment).commit();
+        transaction.replace(toReplace, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override

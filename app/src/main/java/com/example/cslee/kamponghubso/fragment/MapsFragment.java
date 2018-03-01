@@ -72,13 +72,31 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         if ((mLat!=null && !mLat.isEmpty()) && (mLong!=null && !mLong.isEmpty())){
             latLng = new LatLng(Double.parseDouble(mLat), Double.parseDouble(mLong));
-        }else{
+            googleMap.addMarker(new MarkerOptions().position(latLng)
+                    .title("statue")
+                    .snippet("Woohoo"));
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+            googleMap.animateCamera(cameraUpdate);
+        }/*else{
             latLng = new LatLng(40.689247, -74.044502);
-        }
-        googleMap.addMarker(new MarkerOptions().position(latLng)
-                .title("statue")
-                .snippet("Woohoo"));
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
-        googleMap.animateCamera(cameraUpdate);
+        }*/
+
+    }
+    @Override
+    public void onResume() {
+        mapView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 }
