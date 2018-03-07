@@ -1,5 +1,6 @@
 package com.example.cslee.kamponghubso;
 
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -31,21 +32,36 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.Query;
+import com.example.cslee.kamponghubso.models.MyApplication;
+
+import org.json.JSONObject;
+import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
 
     CallbackManager callbackManager;
     private EditText emailText, passwordText;
     private Button loginBtn, registerBtn;
-    private String email, password;
+    private String FBEmail, email, password;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
+    private MyApplication myApp;
+    private DatabaseReference userDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
+        myApp = (MyApplication)getApplicationContext();
         emailText = (EditText) findViewById(R.id.email);
         passwordText = (EditText) findViewById(R.id.password);
         registerBtn = (Button) findViewById(R.id.register);
@@ -55,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
         FBloginBtn.setReadPermissions("email", "public_profile");
         getLoginDetails(FBloginBtn);
         progressDialog = new ProgressDialog(this);
-        firebaseAuth = FirebaseAuth.getInstance(); //gets the firebase auth object
+        firebaseAuth = FirebaseAuth.getInstance();
+        userDB = FirebaseDatabase.getInstance().getReference().child("users");
 
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -101,10 +118,12 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        String userUid = firebaseAuth.getCurrentUser().getUid();
                         progressDialog.dismiss();
                         //if the task is successful
                         if (task.isSuccessful()) {
                             //start the profile activity
+                            myApp.setUID(userUid);
                             finish();
                             Intent i = new Intent(MainActivity.this, NavigationActivity.class);
                             i.putExtra("email", email);
@@ -128,7 +147,34 @@ public class MainActivity extends AppCompatActivity {
                 AccessToken AT = AccessToken.getCurrentAccessToken();
                 Log.d("access token", AT.toString());
                 handleFacebookAccessToken(login_result.getAccessToken());
+                GraphRequest.newMeRequest(
+                        login_result.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject me, GraphResponse response) {
+                                try {
+                                    if (response.getError() != null) {
+                                        // handle error
+                                    } else {
+                                        // get id of user
+                                        FBEmail = me.getString("id")+"@facebook.com";
+                                        myApp.setEmail(FBEmail);
+                                    }
+                                } catch (JSONException e) {
+                                }
+                            }
+                        }).executeAsync();
+
+                //TODO how to check the email exists in the user table only for first time users then go FB Register
+                if(!checkIfEmailExistInFirebase(FBEmail)) {
+                    Intent i = new Intent(MainActivity.this, FacebookRegisterActivity.class);
+                    startActivity(i);
+
+                }else {
+                    Intent i = new Intent(MainActivity.this, NavigationActivity.class);
+                    startActivity(i);
+                }
             }
+
             @Override
             public void onCancel() {
                 // code for cancellation
@@ -195,5 +241,30 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return super.onOptionsItemSelected(item);
+    }
+
+    //method to check if FB email is not the first time login
+    public boolean checkIfEmailExistInFirebase(String emailAddress)
+    {
+        final String emailAdd = emailAddress;
+        final boolean[] emailExist = new boolean[1];
+        Query getUser = userDB.orderByChild("email").equalTo(emailAdd);
+        getUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+                    if(singleSnapshot.exists()) {
+                        emailExist[0] = true;
+                    }else
+                    { emailExist[0] = false;}
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return emailExist[0];
     }
 }

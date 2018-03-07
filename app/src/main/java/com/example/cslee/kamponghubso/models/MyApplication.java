@@ -11,24 +11,30 @@ public class MyApplication extends Application {
     public MyApplication()
     {}
 
-    private static String userEmail;
-    private static String userName;
-    private static String uid;
+    private String userEmail;
+    private String userName;
+    private String uid;
+    private String shopID;
     private String shopName;
-
     private String userZone;
 
-    public String getShopName()
-    {return shopName;}
+    public String getShopID()
+    {return shopID;}
 
-    public void setShopName(String shopName)
-    {this.shopName = shopName;}
+    public void setShopID(String shopID)
+    {this.shopID = shopID;}
 
     public String getEmail()
     {return userEmail;}
 
     public void setEmail(String email)
     {this.userEmail = email;}
+
+    public String getShopName()
+    {return shopName;}
+
+    public void setShopName(String shopName)
+    {this.shopName = shopName;}
 
     public String getUserName()
     {return userName;}

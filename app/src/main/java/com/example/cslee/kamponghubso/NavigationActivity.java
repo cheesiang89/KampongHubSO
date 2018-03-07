@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.cslee.kamponghubso.fragment.CreateAdFragment;
+import com.example.cslee.kamponghubso.fragment.ChatListingFragment;
 import com.example.cslee.kamponghubso.fragment.CreateShopFragment;
 import com.example.cslee.kamponghubso.fragment.MyAdFragment;
 import com.example.cslee.kamponghubso.fragment.ShopListFragment;
@@ -146,9 +147,10 @@ public class NavigationActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.navigation_chat:
-                    //mTextMessage.setText(R.string.title_chat);
-                    Toast.makeText(NavigationActivity.this, "Chat", Toast.LENGTH_SHORT).show();
 
+                    Toast.makeText(NavigationActivity.this, "Chat", Toast.LENGTH_SHORT).show();
+                    fragment = new ChatListingFragment();
+                    goFragment(fragment,R.id.screen_area);
                     //TODO: Chat
 
                     return true;
