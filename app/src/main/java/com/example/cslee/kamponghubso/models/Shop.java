@@ -41,7 +41,7 @@ public class Shop {
     public Shop(String shopOwnerUid, String shopname, String shopImage,
                 String address, String postal,
                 String timeEnd, String timeStart, String shopDescription,
-                String phoneNumber, Context context) {
+                String phoneNumber,String street, Context context) {
         this.shopOwnerUid= shopOwnerUid;
         this.shopName= shopname;
         this.shopImage = shopImage;
@@ -53,7 +53,7 @@ public class Shop {
         this.phoneNumber=Long.parseLong(phoneNumber);
 
         //Calculated
-        LatLng coordinates= Calculations.getLatLngFromPostal(context,postal);
+        LatLng coordinates= Calculations.getLatLngFromStreet(context,postal,street);
         this.shopLatitude= String.valueOf(coordinates.latitude);
         this.shopLongitude=String.valueOf(coordinates.longitude);
         this.shopZone = Calculations.calculateZone(postal);

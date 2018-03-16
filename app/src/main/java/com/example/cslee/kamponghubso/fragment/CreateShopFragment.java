@@ -449,7 +449,7 @@ public class CreateShopFragment extends Fragment implements View.OnClickListener
                                         shopTitle, shopImage,
                                         address, postal,
                                         sTime, eTime,
-                                        description, phone,
+                                        description, phone, street,
                                         getContext());
                                 createEntries(shop);
                              /*   Toast.makeText(getActivity(),

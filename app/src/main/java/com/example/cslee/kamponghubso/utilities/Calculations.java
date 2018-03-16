@@ -384,6 +384,42 @@ public class Calculations {
             return p1;
 
     }
+    public static LatLng getLatLngFromStreet(Context context, String postalCode, String street){
+        Geocoder coder = new Geocoder(context);
+        List<Address> listAddress=null;
+        LatLng p1 = null;
+        int maxTries =100;
+
+        try {
+            // May throw an IOException
+            listAddress = coder.getFromLocationName(postalCode+"Singapore"+street, 5);
+            if(listAddress.size()>0) {
+                Address location = listAddress.get(0);
+                location.getLatitude();
+                location.getLongitude();
+
+                p1 = new LatLng(location.getLatitude(), location.getLongitude());
+
+            }
+            else{
+                new GetCoordinates().execute(postalCode+"+ Singapore +"+street);
+                double lat = Double.parseDouble(latitude);
+                double lng = Double.parseDouble(longitude);
+                p1 = new LatLng(lat, lng);
+            }
+
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+        }
+
+        if (listAddress == null && latitude==null) {
+            return null;
+        }
+        return p1;
+
+    }
     public static boolean checkPostalValid(String postalCode){
       boolean valid = false;
       //NOTE: Not foolproof: Back 4 digits follow some unknown logic. Also add try-catch when creating shop
