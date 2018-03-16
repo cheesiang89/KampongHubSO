@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/KampongHubSO.iml" filepath="$PROJECT_DIR$/KampongHubSO.iml" />
       <module fileurl="file://D:\APROJECTS\android\KampongHubSOv2\KampongHubSO.iml" filepath="D:\APROJECTS\android\KampongHubSOv2\KampongHubSO.iml" />
-      <module fileurl="file://$PROJECT_DIR$/KampongHubSOv2.iml" filepath="$PROJECT_DIR$/KampongHubSOv2.iml" />
+      <module fileurl="file://D:\Program Files\Github\KampongHubSO\KampongHubSOv2.iml" filepath="D:\Program Files\Github\KampongHubSO\KampongHubSOv2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

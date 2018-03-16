@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         //For test
         if(TextUtils.isEmpty(email) && (TextUtils.isEmpty(password)))
         {
-            email = "lee@example.com";
+            email = "shop@shop.com";
             password ="password";
         }
 

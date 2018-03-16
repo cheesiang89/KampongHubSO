@@ -14,8 +14,15 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import android.os.AsyncTask;
 
 public class Calculations {
+
+    private static String latitude;
+    private static String longitude;
 
     public static String calcShopOpen(String timeStart, String timeEnd, String currentTime){
         //TODO: Calculate is shop open
@@ -358,13 +365,20 @@ public class Calculations {
                     p1 = new LatLng(location.getLatitude(), location.getLongitude());
 
                 }
+                else{
+                    new GetCoordinates().execute(postalCode+"+ Singapore");
+                    double lat = Double.parseDouble(latitude);
+                    double lng = Double.parseDouble(longitude);
+                    p1 = new LatLng(lat, lng);
+                }
+
 
             } catch (IOException ex) {
 
                 ex.printStackTrace();
             }
 
-        if (listAddress == null) {
+        if (listAddress == null && latitude==null) {
             return null;
         }
             return p1;
@@ -386,5 +400,46 @@ public class Calculations {
     public static boolean checkTelephoneValid(String phoneNumber){
         return phoneNumber.matches("^[689]\\d{7}$");
 
+    }
+
+    private static class GetCoordinates extends AsyncTask<String,Void,String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+               }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String response;
+            try{
+                String address = strings[0];
+                HttpDataHandler http = new HttpDataHandler();
+                String url = String.format("https://maps.googleapis.com/maps/api/geocode/json?address=%s",address);
+                response = http.getHTTPData(url);
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            try{
+                JSONObject jsonObject = new JSONObject(s);
+
+                latitude = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry")
+                        .getJSONObject("location").get("lat").toString();
+                longitude = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry")
+                        .getJSONObject("location").get("lng").toString();
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
